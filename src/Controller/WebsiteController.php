@@ -12,4 +12,11 @@ class WebsiteController extends AbstractController
     public function home(): Response {
         return $this->render('website/view/home.html.twig');
     }
+
+    #[Route('/contact', name: 'app_website_contact', methods: ['GET'])]
+    public function contact(): Response {
+        return $this->render('website/view/contact.html.twig', [
+            'title' => 'Kontakt'
+        ]);
+    }
 }
