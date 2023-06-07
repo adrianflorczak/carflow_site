@@ -20,10 +20,12 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
+    private UserRepository $userRepository;
 
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(EmailVerifier $emailVerifier, UserRepository $userRepository)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->userRepository = $userRepository;
     }
 
     #[Route('/register', name: 'app_register', priority: 10)]
@@ -39,6 +41,11 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
+            if ($this->userRepository->count([]) == 0) {
+                $user->setRoles(['ROLE_ADMIN']);
+            } else {
+                $user->setRoles(['ROLE_CLIENT']);
+            }
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
