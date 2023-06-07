@@ -24,8 +24,16 @@
                 <a href="{{ path('app_website_faq') }}">FAQ</a>
                 <a href="{{ path('app_website_contact') }}">Kontakt</a>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <a href="{{ path('app_website_customerPanel') }}">Panel klienta</a>
-                    <a href="{{ path('app_website_servicePanel') }}">Panel obsługi</a>
+
+                    {% if is_granted('ROLE_CLIENT') %}
+                        <a href="{{ path('app_website_customerPanel') }}">Panel klienta</a>
+                        <a href="{{ path('app_website_servicePanel') }}">Panel obsługi</a>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_administrator_home') }}">Panel administratora</a>
+                    {% endif %}
+
                     <a href="{{ path('app_website_account') }}">{{ app.user.email }}</a>
                     <a href="{{ path('app_website_logout') }}">Wyloguj się</a>
                 {% else %}

@@ -31,8 +31,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/customer-panel, roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/service-panel, roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/customer-panel, roles: [ROLE_CLIENT] }
+        - { path: ^/service-panel, roles: [ROLE_CLIENT] }
         - { path: ^/account, roles: [IS_AUTHENTICATED_FULLY] }
         - { path: ^/administrator-panel, roles: [ROLE_ADMIN] }
 
