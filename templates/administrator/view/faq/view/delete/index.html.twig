@@ -1,0 +1,28 @@
+{% extends 'administrator/view/faq/base.html.twig' %}
+
+{% block content %}
+    <div style="margin: 15px; padding: 15px; border-radius: 15px; background-color: #93c5fd;">
+        <div style="text-align: center; color: red;">
+            Podgląd wpisu przeznaczonego do usunięcia
+        </div>
+        <div style="font-weight: bold;">
+            {{ item.question }}
+        </div>
+        <div style="font-size: 80%; color: white;">
+            Priorytet: {{ item.priority }}
+        </div>
+        <div style="font-style: italic;">
+            {{ item.answer }}
+        </div>
+    </div>
+    <div style="margin: 15px; padding:15px; border-radius: 15px; background-color: #fcb9b9; color: red; text-align: center;">
+        <span style="font-size: 120%">Czy na pewno chcesz usunąć wpis o identyfikatorze: {{ item.id }} ?</span><br/>
+        <span style="font-size: 80%">Aby potwierdzić wpisz w poniższym polu "TAK" i naciśnij przycisk "POTWIERDŹ".</span><br/><br/>
+        <form action="{{ path('app_administrator_faq_delete', {id: item.id}) }}" method="POST">
+            <input type="text" style="text-align: center;" placeholder="Czy chcesz usunąć wpis ?"><br/><br/>
+            <button type="submit" style="color: red;">POTWIERDŹ</button>
+        </form>
+    </div>
+    Wysyłamy POST na 'app_administrator_faq_delete', tam jak się uda to przekierowanie na listę wszystkich wpisów z komunikatem
+    że się udało, a jak się nie uda to wracamy na listę z komunikatem że się nie udało
+{% endblock %}

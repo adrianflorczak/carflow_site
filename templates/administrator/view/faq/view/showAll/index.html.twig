@@ -1,0 +1,23 @@
+{% extends 'administrator/view/faq/base.html.twig' %}
+
+{% block content %}
+    {% if faqs %}
+        {% for faq in faqs %}
+            <div style="margin: 15px; padding: 15px; border-radius: 15px; background-color: #93c5fd;">
+                <div style="font-weight: bold;">
+                    {{ faq.question }}
+                </div>
+                <div style="font-size: 80%; color: white;">
+                    Priorytet: {{ faq.priority }}
+                </div>
+                <div style="font-style: italic;">
+                    {{ faq.answer }}
+                </div>
+                <button>Edytuj</button><br/>
+                <a href="{{ path('app_administrator_faq_delete', {id: faq.id}) }}"><button>Usuń</button></a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Brak danych do wyświetlenia/</p>
+    {% endif %}
+{% endblock %}

@@ -13,12 +13,17 @@
         {% endblock %}
     </head>
     <body>
-        <a href="{{ path('app_website_home') }}" target="_blank">Przejdź do strony głównej</a><hr/>
-        Panel administratora<hr/>
-        <nav>
-            <a href="">Jeden</a>
-            <a href="">Dwa</a>
-        </nav><hr/>
-        {% block body %}{% endblock %}
+        <div class="content">
+            <div class="navbar">
+                <a href="{{ path('app_administrator_home') }}">Panel administratora</a>
+                <a href="{{ path('app_administrator_faq_home') }}">Faq</a>
+            </div>
+            <div style="padding: 15px;">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+        <footer class="footer">
+            <a href="{{ path('app_website_home') }}">Wróć do strony głównej</a>
+        </footer>
     </body>
 </html>
