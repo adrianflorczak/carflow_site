@@ -14,7 +14,7 @@ class AccountController extends AbstractController
         return $this->render('website/view/account/index.html.twig', []);
     }
 
-    #[Route('/actions/logout', name: 'app_website_logout', methods: ['GET'])]
+    #[Route('/logout', name: 'app_website_logout', methods: ['GET'])]
     public function logout(): never
     {
         // controller can be blank: it will never be called!
