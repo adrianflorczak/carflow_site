@@ -7,5 +7,58 @@
 {% endblock %}
 
 {% block body %}
-    Cennik
+    <div style="padding: 15px;">
+        Cennik<hr/>
+        Na naszej platformie klient, który wypożycza pojazd nie ponosi prowizji za działanie platformy.<br/><br/>
+
+        Posiadasz własny system do zarządzania wypożyczalnią i wyrażasz chęć wykorzystania tylko naszego katalogu w celu
+        pozyskiwania nowych klientów ? 49,99 zł miesięcznie niezależnie od liczny wystawionych pojazdów. <br/><br/>
+
+        Całościowy koszt miesięczny ponoszony przez osobę bądź firmę zakładającą wypożyczalnie ( dalej zwaną organizacją ),
+        niezależnie od liczby oddziałów jakie będą zarejestrowane w ramach organizacji wyliczany jest
+        na podstawie poniższej tabeli:
+        {% if items %}
+            <table style="width: 100%; text-align: center;">
+                <thead>
+                <tr>
+                    <th>Minimalna liczba pojazdów</th>
+                    <th>Maksymalna liczba pojazdów</th>
+                    <th>Cena pojazdu za jedną dobę</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.least }}</td>
+                        <td>{{ item.most }}</td>
+                        <td>
+                            {% set price = item.price/100 %}
+                            {{ price | number_format(2, ',') }} zł
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Brak danych cennika.</p>
+        {% endif %}
+        <hr/>
+        Tutaj zrobić kalkulator w React. <br/>
+        Klient wpisuje liczbę posiadanych pojazdów oraz liczbę dni w danym miesiącu, a w zamian dostaje orientacyjny koszt np.:<br/>
+        <ul>
+            <li>Obsługa 12 pojazdów w miesiącu mającym 31 dni wynosi 12 * 31 * 0,30 zł = 111.60 zł</li>
+            <li>Obsługa 47 pojazdów w miesiącu mającym 24 dni wynosi 47 * 24 * 0,25 zł = 282.00 zł</li>
+            <li>Obsługa 1 pojazdu w miesiącu mającym 30 dni wynosi 1 * 30 * 0.40 zł = 12.00 zł</li>
+        </ul>
+        <hr/>
+        <div>
+            Jeżeli jesteś zdecydowany aby skorzystać z naszej platformy to zapraszamy do założenia w pełni darmowego konta użytkownika.<br/>
+            <a href="javascript:void(0);">Zarejestruj się</a>
+        </div>
+        <hr/>
+        <div>
+            Jesteś zainteresowany czego możesz spodziewać się w ramach naszej platformy ? <br/>
+            Zapraszamy do zapoznania się ze stroną <a href="{{ path('app_website_functionalities') }}">Funkcjonalności</a>
+        </div>
+    </div>
 {% endblock %}

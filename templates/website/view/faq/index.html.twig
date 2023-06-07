@@ -7,5 +7,19 @@
 {% endblock %}
 
 {% block body %}
-    FAQ
+    <div style="padding: 15px;">
+        FAQ<hr/>
+        {% if faqs %}
+            <ol>
+                {% for faq in faqs %}
+                    <li>
+                        <span style="font-weight: bold;">{{ faq.question }}</span><br/>
+                        {{ faq.answer }}
+                    </li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p>Brak danych do wyświetlenia.</p>
+        {% endif %}
+    </div>
 {% endblock %}

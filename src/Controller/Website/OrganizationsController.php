@@ -22,9 +22,4 @@ class OrganizationsController extends AbstractController
             'branch' => $branch
         ]);
     }
-
-    #[Route('/organizations', name: 'app_website_organizations', methods: ['GET'], priority: 10)]
-    public function organizations(): Response {
-        return $this->render('website/view/organizations/organizations/index.html.twig', []);
-    }
 }

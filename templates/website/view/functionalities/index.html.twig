@@ -1,0 +1,22 @@
+{% extends 'website/base.html.twig' %}
+
+{% block title %}
+    <title>
+        Funkcjonalności | CarFLOw.site - Ty spełniaj marzenia, My dostarczymy samochód.
+    </title>
+{% endblock %}
+
+{% block body %}
+    <div style="padding: 15px;">
+        Funkcjonalności<hr/>
+        <div>
+            Jeżeli jesteś zdecydowany aby skorzystać z naszej platformy to zapraszamy do założenia w pełni darmowego konta użytkownika.<br/>
+            <a href="javascript:void(0);">Zarejestruj się</a>
+        </div>
+        <hr/>
+        <div>
+            Jesteś ciekawy jak mało zapłacisz za te wszystkie niesamowicie przydatne w prowadzeniu wypożyczalni samochodowej funkcjonalności ? <br/>
+            Zapraszamy do zapoznania się ze stroną <a href="{{ path('app_website_price-list') }}">Cennik</a>
+        </div>
+    </div>
+{% endblock %}
