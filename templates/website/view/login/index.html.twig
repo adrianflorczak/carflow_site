@@ -1,0 +1,29 @@
+{% extends 'website/base.html.twig' %}
+
+{% block title %}
+    <title>
+        Zaloguj się | CarFLOw.site - Ty spełniaj marzenia, My dostarczymy samochód.
+    </title>
+{% endblock %}
+
+{% block body %}
+    <div style="padding: 15px;">
+        Zaloguj się<hr/>
+        {% if error %}
+            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        <form action="{{ path('app_website_login') }}" method="post">
+            <label for="username">Email:</label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}">
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="_password">
+
+
+{#            <input type="hidden" name="_target_path" value="/account">#}
+
+            <button type="submit">login</button>
+        </form>
+    </div>
+{% endblock %}

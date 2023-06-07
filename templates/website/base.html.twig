@@ -23,10 +23,17 @@
                 <a href="{{ path('app_website_price-list') }}">Cennik</a>
                 <a href="{{ path('app_website_faq') }}">FAQ</a>
                 <a href="{{ path('app_website_contact') }}">Kontakt</a>
-                <a href="{{ path('app_website_customerPanel') }}">Panel klienta</a>
-                <a href="{{ path('app_website_servicePanel') }}">Panel obsługi</a>
-                <a href="{{ path('app_website_account') }}">Adrian Florczak</a>
-                <a href="">Wyloguj się</a>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <a href="{{ path('app_website_customerPanel') }}">Panel klienta</a>
+                    <a href="{{ path('app_website_servicePanel') }}">Panel obsługi</a>
+                    <a href="{{ path('app_website_account') }}">{{ app.user.email }}</a>
+                    <form action="{{ path('app_website_logout') }}" method="POST">
+                        <button style="border: none; background: none; color: inherit;" type="submit">Wyloguj się</button>
+                    </form>
+                {% else %}
+                    <a href="{{ path('app_website_login') }}">Zaloguj się</a>
+                    <a href="{{ path('app_register') }}">Zarejestruj się</a>
+                {% endif %}
             </div>
             {% block body %}{% endblock %}
         </div>

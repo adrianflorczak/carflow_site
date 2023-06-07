@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pl" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ status_code }}: {{ status_text }} | CarFLOw.Site</title>
+</head>
+<body style="height: 100%; display: flex; justify-content: center; align-items: center;">
+    <div style="padding: 15px; background-color: #93c5fd; text-align: center; border-radius: 15px;">
+        <h1>Nie posiadasz wymaganych uprawnień</h1>
+
+        <p>
+            Podczas wykonywania zapytania napotkaliśmy na błąd: {{ status_code }} ( {{ status_text }} ).
+        </p>
+        <p>
+            Ten błąd występuje gdy użytkownik próbuje dostać się do zasobu, który jest dla niego niedostępny ze wzglądu na
+            poziomy uprawnień.
+        </p>
+        <p>
+            Zapraszamy do innej część naszego serwisu<br/>
+            <a href="{{ path('app_website_home') }}">Strona główna</a><br/>
+        </p>
+    </div>
+</body>
+</html>

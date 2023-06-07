@@ -13,4 +13,11 @@ class AccountController extends AbstractController
     public function account(): Response {
         return $this->render('website/view/account/index.html.twig', []);
     }
+
+    #[Route('/actions/logout', name: 'app_website_logout', methods: ['POST'])]
+    public function logout(): never
+    {
+        // controller can be blank: it will never be called!
+        throw new \Exception('Don\'t forget to activate logout in security.yaml');
+    }
 }
