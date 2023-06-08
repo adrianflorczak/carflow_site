@@ -7,13 +7,14 @@
 {% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div>{{ flash_error }}</div>
-    {% endfor %}
+    <div class="container-fluid">
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div>{{ flash_error }}</div>
+        {% endfor %}
 
-    <h1>Rejestracja nowego użytkownika</h1>
+        <h1>Rejestracja nowego użytkownika</h1>
 
-    {{ form_start(registrationForm) }}
+        {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
@@ -21,5 +22,6 @@
         {{ form_row(registrationForm.agreeTerms) }}
 
         <button type="submit">Zarejestruj</button>
-    {{ form_end(registrationForm) }}
+        {{ form_end(registrationForm) }}
+    </div>
 {% endblock %}
