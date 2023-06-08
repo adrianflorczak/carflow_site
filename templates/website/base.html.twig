@@ -76,7 +76,7 @@
                                     </li>
                                 {% endif %}
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Zalogowano jako, {{ app.user.email }} <span class="caret"></span></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Zalogowano jako, {{ app.user.name }} {{ app.user.surname }} <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="{{ path('app_website_account') }}">Edytuj profil</a></li>
                                         <li role="separator" class="divider"></li>
