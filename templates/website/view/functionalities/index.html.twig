@@ -7,8 +7,11 @@
 {% endblock %}
 
 {% block body %}
-    <div style="padding: 15px;">
-        Funkcjonalności<hr/>
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_website_home') }}">Home</a></li>
+            <li class="active">Funkcjonalności</li>
+        </ol>
         <div>
             Jeżeli jesteś zdecydowany aby skorzystać z naszej platformy to zapraszamy do założenia w pełni darmowego konta użytkownika.<br/>
             <a href="javascript:void(0);">Zarejestruj się</a>

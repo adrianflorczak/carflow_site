@@ -1,7 +1,14 @@
 {% extends 'administrator/base.html.twig' %}
 
 {% block body %}
-    Edycja wpisu o id: {{ id }}<hr/>
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_website_home') }}">Home</a></li>
+            <li><a href="{{ path('app_administrator_home') }}">Panel administratora</a></li>
+            <li><a href="{{ path('app_administrator_home') }}">FAQ</a></li>
+            <li class="active">Zaktualizuj wpis o identyfikatorze: {{ id }}</li>
+        </ol>
+    </div>
     {{
     form(
         form,

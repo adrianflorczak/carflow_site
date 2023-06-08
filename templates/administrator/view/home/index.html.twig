@@ -1,5 +1,8 @@
 {% extends 'administrator/base.html.twig' %}
 
 {% block body %}
-    Dashboard
+    <ol class="breadcrumb">
+        <li><a href="{{ path('app_website_home') }}">Home</a></li>
+        <li class="active">Panel administratora</li>
+    </ol>
 {% endblock %}

@@ -7,8 +7,11 @@
 {% endblock %}
 
 {% block body %}
-    <div style="padding: 15px;">
-        FAQ<hr/>
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_website_home') }}">Home</a></li>
+            <li class="active">FAQ</li>
+        </ol>
         {% if faqs %}
             <ol>
                 {% for faq in faqs %}

@@ -1,7 +1,11 @@
 {% extends 'administrator/base.html.twig' %}
 
 {% block body %}
-    Dashboard<hr/>
+    <ol class="breadcrumb">
+        <li><a href="{{ path('app_website_home') }}">Home</a></li>
+        <li><a href="{{ path('app_administrator_home') }}">Panel administratora</a></li>
+        <li class="active">FAQ</li>
+    </ol>
     <div class="jumbotron" style="text-align: center;">
         <p>Liczba pozycji FAQ zarejestrowyanych w systemie:</p>
         <p>{{ counter }}</p>

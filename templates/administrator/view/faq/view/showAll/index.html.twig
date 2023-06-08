@@ -2,6 +2,15 @@
 
 {% block body %}
 
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_website_home') }}">Home</a></li>
+            <li><a href="{{ path('app_administrator_home') }}">Panel administratora</a></li>
+            <li><a href="{{ path('app_administrator_home') }}">FAQ</a></li>
+            <li class="active">Pokaż wszystko</li>
+        </ol>
+    </div>
+
     {% for flash_info in app.flashes('remove_faq_item_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
     {% endfor %}
