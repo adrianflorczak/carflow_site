@@ -15,6 +15,10 @@ class FaqService
         $this->repository = $repository;
     }
 
+    public function saveFaqItem(Faq $faq): Faq {
+        return $this->repository->save($faq, true);
+    }
+
     public function getAllFaqs(): array
     {
         // sort here
@@ -28,6 +32,20 @@ class FaqService
         if ($item)
         {
             return $item;
+        }
+        else
+        {
+            throw new NotFoundHttpException('Not Found with id' . $id);
+        }
+    }
+
+    public function removeItemById(int $id): void
+    {
+        $item = $this->repository->findOneBy(['id' => $id]);
+
+        if ($item)
+        {
+            $this->repository->remove($item, true);
         }
         else
         {
