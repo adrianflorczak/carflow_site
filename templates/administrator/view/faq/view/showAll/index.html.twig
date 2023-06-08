@@ -1,49 +1,66 @@
-{% extends 'administrator/view/faq/base.html.twig' %}
+{% extends 'administrator/base.html.twig' %}
 
-{% block content %}
+{% block body %}
 
     {% for flash_info in app.flashes('remove_faq_item_error') %}
-        <div style="margin: 15px; padding: 15px; border-radius: 15px; background-color: #fcb9b9; color: red;">{{ flash_info }}</div>
+        <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
     {% endfor %}
 
     {% for flash_info in app.flashes('new_faq_item_error') %}
-        <div style="margin: 15px; padding: 15px; border-radius: 15px; background-color: #fcb9b9; color: red;">{{ flash_info }}</div>
+        <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
     {% endfor %}
 
     {% for flash_info in app.flashes('update_faq_item_error') %}
-        <div style="margin: 15px; padding: 15px; border-radius: 15px; background-color: #fcb9b9; color: red;">{{ flash_info }}</div>
+        <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
     {% endfor %}
 
     {% for flash_info in app.flashes('remove_faq_item_success') %}
-        <div style="margin: 15px; padding: 15px; border-radius: 15px; background-color: #9ee72d; color: green;">{{ flash_info }}</div>
+        <div class="alert alert-success" role="alert">{{ flash_info }}</div>
     {% endfor %}
 
     {% for flash_info in app.flashes('new_faq_item_success') %}
-        <div style="margin: 15px; padding: 15px; border-radius: 15px; background-color: #9ee72d; color: green;">{{ flash_info }}</div>
+        <div class="alert alert-success" role="alert">{{ flash_info }}</div>
     {% endfor %}
 
     {% for flash_info in app.flashes('update_faq_item_success') %}
-        <div style="margin: 15px; padding: 15px; border-radius: 15px; background-color: #9ee72d; color: green;">{{ flash_info }}</div>
+        <div class="alert alert-success" role="alert">{{ flash_info }}</div>
     {% endfor %}
 
     {% if faqs %}
-        {% for faq in faqs %}
-            <div style="margin: 15px; padding: 15px; border-radius: 15px; background-color: #93c5fd;">
-                <div style="font-weight: bold;">
-                    {{ faq.question }}
-                </div>
-                <div style="font-size: 80%; color: white;">
-                    Priorytet: {{ faq.priority }}
-                </div>
-                <div style="font-style: italic;">
-                    {{ faq.answer }}
-                </div>
-                <a href="{{ path('app_administrator_faq_update', {id: faq.id}) }}"><button>Edytuj</button></a>
-                <br/>
-                <a href="{{ path('app_administrator_faq_delete', {id: faq.id}) }}"><button>Usuń</button></a>
-            </div>
-        {% endfor %}
+        <table class="table table-condensed table-custom">
+            <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Priorytet</td>
+                    <td>Pytanie</td>
+                    <td>Odpowiedź</td>
+                    <td colspan="2">Akcje</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for faq in faqs %}
+                <tr>
+                    <td>{{ faq.id }}</td>
+                    <td>{{ faq.priority }}</td>
+                    <td>{{ faq.question }}</td>
+                    <td>{{ faq.answer }}</td>
+                    <td>
+                        <a href="{{ path('app_administrator_faq_update', {id: faq.id}) }}">
+                            <button type="button" class="btn btn-primary btn-xs">Edytuj</button>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('app_administrator_faq_delete', {id: faq.id}) }}">
+                            <button type="button" class="btn btn-danger btn-xs">Usuń</button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     {% else %}
-        <p>Brak danych do wyświetlenia</p>
+        <div class="alert alert-info" role="alert">
+            Brak danych
+        </div>
     {% endif %}
 {% endblock %}

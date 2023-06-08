@@ -1,9 +1,9 @@
-{% extends 'administrator/view/faq/base.html.twig' %}
+{% extends 'administrator/base.html.twig' %}
 
-{% block content %}
+{% block body %}
 
     {% for flash_info in app.flashes('remove_faq_item_confirmation_error') %}
-        <div style="margin: 15px; padding: 15px; border-radius: 15px; background-color: #fcb9b9; color: red;">{{ flash_info }}</div>
+        <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
     {% endfor %}
 
     <div style="margin: 15px; padding: 15px; border-radius: 15px; background-color: #93c5fd;">

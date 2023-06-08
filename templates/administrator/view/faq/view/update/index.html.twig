@@ -1,6 +1,16 @@
-{% extends 'administrator/view/faq/base.html.twig' %}
+{% extends 'administrator/base.html.twig' %}
 
-{% block content %}
+{% block body %}
     Edycja wpisu o id: {{ id }}<hr/>
-    {{ form(form)}}
+    {{
+    form(
+        form,
+        {
+            'attr':
+            {
+                'class': 'form-horizontal'
+            }
+        }
+    )
+    }}
 {% endblock %}

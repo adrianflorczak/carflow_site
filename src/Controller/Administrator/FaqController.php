@@ -28,7 +28,10 @@ class FaqController extends AbstractController
     #[Route('', name: 'app_administrator_faq_home', methods: ['GET'])]
     public function getFaqDashboard(): Response
     {
-        return $this->render('administrator/view/faq/view/dashboard/index.html.twig', []);
+        $counter = $this->faqService->getCount();
+        return $this->render('administrator/view/faq/view/dashboard/index.html.twig', [
+            'counter' => $counter
+        ]);
     }
 
     #[Route('/create-new', name: 'app_administrator_faq_create-new', methods: ['GET', 'POST'])]
@@ -40,25 +43,29 @@ class FaqController extends AbstractController
             ->add('priority', IntegerType::class, [
                 'label' => 'Priorytet',
                 'attr' => [
+                    'placeholder' => 'Priorytet',
+                    'style' => 'margin: 15px;',
                     'min'=> 0
                 ]
             ])
             ->add('question', TextType::class, [
                 'label' => 'Pytanie',
                 'attr' => [
-                    'placeholder' => 'Tutaj wpisz treść pytania.'
+                    'placeholder' => 'Tutaj wpisz treść pytania.',
+                    'style' => 'margin: 15px;',
                 ]
             ])
             ->add('answer', TextType::class, [
                 'label' => 'Odpowiedź',
                 'attr' => [
-                    'placeholder' => 'Tutaj wpisz treść odpopwiedzi.'
+                    'placeholder' => 'Tutaj wpisz treść odpopwiedzi.',
+                    'style' => 'margin: 15px;',
                 ]
             ])
             ->add('saveButton', SubmitType::class, [
                 'label' => 'Zapisz',
                 'attr' => [
-                    'style' => 'background-color: green; color: white; margin: 15px 0; border: none; padding: 10px 10px',
+                    'class' => 'btn btn-success'
                 ]
             ])
             ->getForm();
@@ -106,28 +113,32 @@ class FaqController extends AbstractController
             ->add('priority', IntegerType::class, [
                 'label' => 'Priorytet',
                 'attr' => [
+                    'placeholder' => 'Priorytet.',
                     'min'=> 0,
-                    'value' => $updateValue->getPriority()
+                    'value' => $updateValue->getPriority(),
+                    'style' => 'margin: 15px;',
                 ]
             ])
             ->add('question', TextType::class, [
                 'label' => 'Pytanie',
                 'attr' => [
                     'placeholder' => 'Tutaj wpisz treść pytania.',
-                    'value' => $updateValue->getQuestion()
+                    'value' => $updateValue->getQuestion(),
+                    'style' => 'margin: 15px;',
                 ]
             ])
             ->add('answer', TextType::class, [
                 'label' => 'Odpowiedź',
                 'attr' => [
                     'placeholder' => 'Tutaj wpisz treść odpopwiedzi.',
-                    'value' => $updateValue->getAnswer()
+                    'value' => $updateValue->getAnswer(),
+                    'style' => 'margin: 15px;',
                 ]
             ])
             ->add('saveButton', SubmitType::class, [
                 'label' => 'Zapisz',
                 'attr' => [
-                    'style' => 'background-color: green; color: white; margin: 15px 0; border: none; padding: 10px 10px',
+                    'class' => 'btn btn-success'
                 ]
             ])
             ->getForm();

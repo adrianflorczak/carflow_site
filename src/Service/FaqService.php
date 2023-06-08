@@ -15,6 +15,11 @@ class FaqService
         $this->repository = $repository;
     }
 
+    public function getCount(): int
+    {
+        return $this->repository->count([]);
+    }
+
     public function saveFaqItem(Faq $faq): Faq {
         return $this->repository->save($faq, true);
     }

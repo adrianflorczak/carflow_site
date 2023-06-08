@@ -1,6 +1,15 @@
-{% extends 'administrator/view/faq/base.html.twig' %}
+{% extends 'administrator/base.html.twig' %}
 
-{% block content %}
-    Formularz nowego wpisu FAQ.
-    {{ form(form) }}
+{% block body %}
+    {{
+    form(
+        form,
+        {
+            'attr':
+            {
+                'class': 'form-horizontal'
+            }
+        }
+    )
+    }}
 {% endblock %}

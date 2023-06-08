@@ -1,5 +1,12 @@
-{% extends 'administrator/view/faq/base.html.twig' %}
+{% extends 'administrator/base.html.twig' %}
 
-{% block content %}
-    Dashboard
+{% block body %}
+    Dashboard<hr/>
+    <div class="jumbotron" style="text-align: center;">
+        <p>Liczba pozycji FAQ zarejestrowyanych w systemie:</p>
+        <p>{{ counter }}</p>
+        <p>
+            <a href="{{ path('app_administrator_faq_show-all') }}"><button class="btn btn-primary">Pokaż wszystkie</button></a>
+        </p>
+    </div>
 {% endblock %}

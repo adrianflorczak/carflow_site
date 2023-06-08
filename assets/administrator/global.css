@@ -17,38 +17,8 @@ body {
     flex: 1 0 auto;
 }
 
-.content .navbar {
-    background-color: #93c5fd;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.content .navbar a {
-    color: inherit;
-    text-decoration: none;
-    padding: 15px;
-}
-
-.content .navbar a:hover {
-    background-color: #3b82f6;
-}
-
-.sub-navbar {
-    background-color: #93c5fd;
-    display: flex;
-    justify-content: space-between;
-}
-
-.sub-navbar a {
-    padding: 15px;
-    color: white;
-    text-decoration: none;
-}
-
-.sub-navbar a:hover {
-    background-color: #3b82f6;
+.table-custom {
+    text-align: center;
 }
 
 .footer {
