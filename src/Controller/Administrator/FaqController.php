@@ -2,12 +2,18 @@
 
 namespace App\Controller\Administrator;
 
+use App\Dto\Administrator\Faq\DeletionConfirmationDto;
+use App\Dto\Administrator\Faq\FaqItemDto;
+use App\Entity\Faq;
 use App\Service\FaqService;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
 #[Route('/administrator-panel/faq')]
 class FaqController extends AbstractController
@@ -19,18 +25,67 @@ class FaqController extends AbstractController
         $this->faqService = $faqService;
     }
 
-    #[Route('/create-new', name: 'app_administrator_faq_create-new', methods: ['GET'])]
-    public function createNewFaqItem(): Response
-    {
-        return $this->render('administrator/view/faq/view/new/index.html.twig', []);
-    }
-
     #[Route('', name: 'app_administrator_faq_home', methods: ['GET'])]
     public function getFaqDashboard(): Response
     {
         return $this->render('administrator/view/faq/view/dashboard/index.html.twig', []);
     }
 
+    #[Route('/create-new', name: 'app_administrator_faq_create-new', methods: ['GET', 'POST'])]
+    public function createNewFaqItem(Request $request): Response
+    {
+        $item = new FaqItemDto();
+
+        $form = $this->createFormBuilder($item)
+            ->add('priority', IntegerType::class, [
+                'label' => 'Priorytet',
+                'attr' => [
+                    'min'=> 0
+                ]
+            ])
+            ->add('question', TextType::class, [
+                'label' => 'Pytanie',
+                'attr' => [
+                    'placeholder' => 'Tutaj wpisz treść pytania.'
+                ]
+            ])
+            ->add('answer', TextType::class, [
+                'label' => 'Odpowiedź',
+                'attr' => [
+                    'placeholder' => 'Tutaj wpisz treść odpopwiedzi.'
+                ]
+            ])
+            ->add('saveButton', SubmitType::class, [
+                'label' => 'Zapisz',
+                'attr' => [
+                    'style' => 'background-color: green; color: white; margin: 15px 0; border: none; padding: 10px 10px',
+                ]
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $data = $form->getData();
+
+            $faq = new Faq();
+            $faq->setPriority($data->priority);
+            $faq->setQuestion($data->question);
+            $faq->setAnswer($data->answer);
+            try {
+                $this->faqService->saveFaqItem($faq);
+                $this->addFlash('new_faq_item_success', 'Poprawnie zapisano nową wartość');
+            } catch (HttpException $e) {
+                $this->addFlash('new_faq_item_error', 'Podczas zapisywania nowej wartości wystąpił błąd');
+            } finally {
+                return $this->redirectToRoute('app_administrator_faq_show-all');
+            }
+        }
+
+        return $this->render('administrator/view/faq/view/new/index.html.twig', [
+            'form' => $form
+        ]);
+    }
 
     #[Route('/show-all', name: 'app_administrator_faq_show-all', methods: ['GET'])]
     public function getAllFaqItems(): Response {
@@ -40,16 +95,120 @@ class FaqController extends AbstractController
         ]);
     }
 
-    // update one
+    #[Route('/{id}/edit', name: 'app_administrator_faq_update', methods: ['GET', 'POST'])]
+    public function updateOneFaqItemById(string $id, Request $request): Response
+    {
+        $item = new FaqItemDto();
+
+        $updateValue = $this->faqService->getItemById(intval($id));
+
+        $form = $this->createFormBuilder($item)
+            ->add('priority', IntegerType::class, [
+                'label' => 'Priorytet',
+                'attr' => [
+                    'min'=> 0,
+                    'value' => $updateValue->getPriority()
+                ]
+            ])
+            ->add('question', TextType::class, [
+                'label' => 'Pytanie',
+                'attr' => [
+                    'placeholder' => 'Tutaj wpisz treść pytania.',
+                    'value' => $updateValue->getQuestion()
+                ]
+            ])
+            ->add('answer', TextType::class, [
+                'label' => 'Odpowiedź',
+                'attr' => [
+                    'placeholder' => 'Tutaj wpisz treść odpopwiedzi.',
+                    'value' => $updateValue->getAnswer()
+                ]
+            ])
+            ->add('saveButton', SubmitType::class, [
+                'label' => 'Zapisz',
+                'attr' => [
+                    'style' => 'background-color: green; color: white; margin: 15px 0; border: none; padding: 10px 10px',
+                ]
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $data = $form->getData();
+
+            $updateValue->setPriority($data->priority);
+            $updateValue->setQuestion($data->question);
+            $updateValue->setAnswer($data->answer);
+
+            try {
+                $this->faqService->saveFaqItem($updateValue);
+                $this->addFlash('update_faq_item_success', 'Poprawnie zaktualizowano nową wartość');
+            } catch (HttpException $e) {
+                $this->addFlash('update_faq_item_error', 'Podczas aktualizacji wartości wystąpił błąd');
+            } finally {
+                return $this->redirectToRoute('app_administrator_faq_show-all');
+            }
+        }
+
+
+        return $this->render('administrator/view/faq/view/update/index.html.twig', [
+            'form' => $form,
+            'id' => $id
+        ]);
+    }
 
     #[Route('/{id}/delete', name: 'app_administrator_faq_delete', methods: ['GET', 'POST'])]
-    public function deleteOneFaqItem(string $id): Response
+    public function deleteOneFaqItem(string $id, Request $request): Response
     {
+        $confirmation = new DeletionConfirmationDto();
+
+        $form = $this->createFormBuilder($confirmation)
+            ->add('confirmationText', TextType::class, [
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Czy chcesz usunąć wpis ?',
+                    'style' => 'text-align: center;'
+                ]
+            ])
+            ->add('confirmationButton', SubmitType::class, [
+                'label' => 'POTWIERDŹ',
+                'attr' => [
+                    'style' => 'color: red; margin: 15px 0;',
+                ]
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $data = $form->getData();
+
+            if ($data->confirmationText == 'TAK')
+            {
+                try {
+                    $this->faqService->removeItemById(intval($id));
+                    $this->addFlash('remove_faq_item_success', 'Wartość usunięta poprawnie');
+                    return $this->redirectToRoute('app_administrator_faq_show-all');
+                } catch (HttpException $exception) {
+                    $this->addFlash('remove_faq_item_error', 'Podczas usówania wartości wystąpił błąd');
+                    return $this->redirectToRoute('app_administrator_faq_show-all');
+                }
+            } else
+            {
+                $this->addFlash(
+                    'remove_faq_item_confirmation_error',
+                    'Nie wpisno poprawnie tekstu potwierdzającego usunięcie zasobu.'
+                );
+                return $this->redirectToRoute('app_administrator_faq_delete', ['id' => $id]);
+            }
+        }
 
         $item = $this->faqService->getItemById(intval($id));
 
         return $this->render('administrator/view/faq/view/delete/index.html.twig', [
-            'item' => $item
+            'item' => $item,
+            'form' => $form
         ]);
     }
 }
