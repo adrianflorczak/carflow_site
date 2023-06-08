@@ -14,49 +14,109 @@
     </head>
     <body>
         <div class="content">
-            <div class="navbar">
-                <a href="{{ path('app_website_home') }}">CarFLOw.Site</a>
-                <a href="{{ path('app_website_reservation') }}">Rezerwacja</a>
-                <a href="{{ path('app_website_catalog_organizations') }}">Organizacje</a>
-                <a href="{{ path('app_website_catalog_branches') }}">Oddziały</a>
-                <a href="{{ path('app_website_functionalities') }}">Funkcjonalności</a>
-                <a href="{{ path('app_website_price-list') }}">Cennik</a>
-                <a href="{{ path('app_website_faq') }}">FAQ</a>
-                <a href="{{ path('app_website_contact') }}">Kontakt</a>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="{{ path('app_website_home') }}">CarFLOw.Site</a>
+                    </div>
 
-                    {% if is_granted('ROLE_CLIENT') %}
-                        <a href="{{ path('app_website_customerPanel') }}">Panel klienta</a>
-                        <a href="{{ path('app_website_servicePanel') }}">Panel obsługi</a>
-                    {% endif %}
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><a href="{{ path('app_website_reservation') }}">Rezerwacja</a></li>
+                            <li><a href="{{ path('app_website_catalog_organizations') }}">Organizacje</a></li>
+                            <li><a href="{{ path('app_website_catalog_branches') }}">Oddziały</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Funkcjonalności <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ path('app_website_functionalities') }}">Główna</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#">Dla klienta</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#">Dla wypożyczalni CarFLOw.Site</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#">Dla wypożyczalni zewnętrznych</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{{ path('app_website_faq') }}">FAQ</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cennik <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ path('app_website_price-list') }}">Główna</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#">Dla klienta</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#">Dla wypożyczalni CarFLOw.Site</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#">Dla wypożyczalni zewnętrznych</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{{ path('app_website_contact') }}">Kontakt</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                {% if is_granted('ROLE_CLIENT') %}
+                                    <li>
+                                        <a href="{{ path('app_website_customerPanel') }}">Panel klienta</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('app_website_servicePanel') }}">Panel obsługi</a>
+                                    </li>
+                                {% endif %}
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <li>
+                                        <a href="{{ path('app_administrator_home') }}">Panel administratora</a>
+                                    </li>
+                                {% endif %}
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Zalogowano jako, {{ app.user.email }} <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ path('app_website_account') }}">Edytuj profil</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="{{ path('app_website_logout') }}">Wyloguj się</a></li>
+                                    </ul>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ path('app_website_login') }}">Zaloguj się</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_register') }}">Zarejestruj się</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
 
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('app_administrator_home') }}">Panel administratora</a>
-                    {% endif %}
-
-                    <a href="{{ path('app_website_account') }}">{{ app.user.email }}</a>
-                    <a href="{{ path('app_website_logout') }}">Wyloguj się</a>
-                {% else %}
-                    <a href="{{ path('app_website_login') }}">Zaloguj się</a>
-                    <a href="{{ path('app_register') }}">Zarejestruj się</a>
-                {% endif %}
-            </div>
             {% block body %}{% endblock %}
+
         </div>
         <footer class="footer">
             <div class="footer-up">
-                <span class="info">Nawigacja:</span>
-                <a href="{{ path('app_website_home') }}">HOME</a>
-                <a href="{{ path('app_website_rodo') }}">RODO</a>
-                <a href="{{ path('app_website_privacy-policy') }}">Polityka Prywatności</a>
-                <a href="{{ path('app_website_customerPanel') }}">Panel klienta</a>
-                <a href="{{ path('app_website_servicePanel') }}">Panel obsługi</a>
-                <a href="{{ path('app_administrator_home') }}">Panel administratora</a>
+                <div class="container-fluid footer-up-container">
+                    <span class="info">Nawigacja:</span>
+                    <a href="{{ path('app_website_home') }}">HOME</a>
+                    <a href="{{ path('app_website_rodo') }}">RODO</a>
+                    <a href="{{ path('app_website_privacy-policy') }}">Polityka Prywatności</a>
+                    <a href="{{ path('app_website_customerPanel') }}">Panel klienta</a>
+                    <a href="{{ path('app_website_servicePanel') }}">Panel obsługi</a>
+                    <a href="{{ path('app_administrator_home') }}">Panel administratora</a>
+                </div>
             </div>
             <div class="footer-down">
-                <a href="{{ path('app_website_home') }}">CarFLOw.Site</a><br/>
-                Wrocław 2023<br/>
-                Stworzone przez <a href="https://adrianflorczak.pl" target="_blank" class="author">Adrian Florczak</a>
+                <div class="container-fluid">
+                    <a href="{{ path('app_website_home') }}">CarFLOw.Site</a><br/>
+                    Wrocław 2023<br/>
+                    Stworzone przez <a href="https://adrianflorczak.pl" target="_blank" class="author">Adrian Florczak</a>
+                </div>
             </div>
         </footer>
     </body>

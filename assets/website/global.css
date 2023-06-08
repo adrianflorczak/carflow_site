@@ -17,46 +17,28 @@ body {
     flex: 1 0 auto;
 }
 
-.content .navbar {
-    background-color: #93c5fd;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.content .navbar a {
-    color: inherit;
-    text-decoration: none;
-    padding: 15px;
-}
-
-.content .navbar a:hover {
-    background-color: #3b82f6;
-}
-
 .footer {
     flex-shrink: 0;
 }
 
-.footer .footer-up {
+.footer .footer-up-container {
     background-color: #676767;
     color: white;
     display: flex;
     justify-content: space-around;
 }
 
-.footer .footer-up a {
+.footer .footer-up-container a {
     text-decoration: none;
     color: inherit;
     padding: 15px;
 }
 
-.footer .footer-up a:hover {
+.footer .footer-up-container a:hover {
     background-color: #555555;
 }
 
-.footer .footer-up .info {
+.footer .footer-up-container .info {
     padding: 15px;
 }
 
