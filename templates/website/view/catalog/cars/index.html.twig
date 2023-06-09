@@ -20,12 +20,20 @@
                         <div class="thumbnail">
                             <div class="caption">
                                 <h3>{{ car.brand }} {{ car.model }}</h3>
+                                {{ car.vin }}
                                 <p>
-{#                                    <a href="{{#}
-{#                                    path('app_website_organization_branch', {organizationSlug: branch.organization.slug, branchSlug: branch.slug})#}
-{#                                    }}" class="btn btn-primary" role="button">#}
-{#                                        Pokaż szczegóły#}
-{#                                    </a>#}
+                                    <a href="{{
+                                    path(
+                                            'app_website_organization_branch_car',
+                                            {
+                                                organizationSlug: car.branch.organization.slug,
+                                                branchSlug: car.branch.slug,
+                                                carId: car.id
+                                            }
+                                    )
+                                    }}" class="btn btn-primary" role="button">
+                                        Pokaż szczegóły
+                                    </a>
                                 </p>
                             </div>
                         </div>

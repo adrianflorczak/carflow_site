@@ -33,8 +33,30 @@ class OrganizationsController extends AbstractController
     {
         $branch = $this->organizationService->getBranchByOrganizationAndBranchSlug($organizationSlug, $branchSlug);
         $organization = $branch->getOrganization();
+        $cars = $branch->getCars();
 
         return $this->render('website/view/organizations/organization/branch/index.html.twig', [
+            'branch' => $branch,
+            'organization' => $organization,
+            'cars' => $cars
+        ]);
+    }
+
+    #[Route('/{organizationSlug}/{branchSlug}/cars/{carId}', name: 'app_website_organization_branch_car', methods: ['GET'])]
+    public function car(string $organizationSlug, string $branchSlug, string $carId): Response
+    {
+        $car = $this->organizationService->getCarByOrganizationSlugAndBranchSlugAndCarId(
+            $organizationSlug,
+            $branchSlug,
+            $carId
+        );
+
+        $branch = $car->getBranch();
+
+        $organization = $branch->getOrganization();
+
+        return $this->render('website/view/organizations/organization/branch/car/index.html.twig', [
+            'car' => $car,
             'branch' => $branch,
             'organization' => $organization
         ]);

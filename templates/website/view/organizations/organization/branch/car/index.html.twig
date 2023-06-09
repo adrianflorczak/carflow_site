@@ -2,7 +2,7 @@
 
 {% block title %}
     <title>
-        {{ organization.name }}: {{ branch.name}} | CarFLOw.site - Ty spełniaj marzenia, My dostarczymy samochód.
+        {{ organization.name }}: {{ branch.name}}: {{ car.brand }} {{ car.model }} (Id: {{ car.id }}) | CarFLOw.site - Ty spełniaj marzenia, My dostarczymy samochód.
     </title>
 {% endblock %}
 
@@ -12,35 +12,21 @@
             <li><a href="{{ path('app_website_home') }}">Home</a></li>
             <li><a href="{{ path('app_website_catalog_organizations') }}">Organizacje</a></li>
             <li><a href="{{ path('app_website_organization', {organizationSlug: organization.slug}) }}">Organizacja: {{ organization.name }}</a></li>
-            <li class="active">Oddział: {{ branch.name }}</li>
+            <li><a href="{{ path('app_website_organization_branch', {organizationSlug: organization.slug, branchSlug: branch.slug}) }}">Organizacja: {{ branch.name }}</a></li>
+            <li class="active">{{ car.brand }} {{ car.model }} (Id: {{ car.id }})</li>
         </ol>
+        {{ car.brand }} {{ car.model }}<br/>
+        {{ car.vin }}<br/><br/>
 
+        Aktualny oddział:<br/>
+        <a href="{{ path('app_website_organization_branch', {organizationSlug: organization.slug, branchSlug: branch.slug}) }}">{{ branch.name }}</a><br/><br/>
 
-        Oddział: {{ branch.name }}<br/><br/>
         Organizacja zarządzająca:<br/>
         <a href="{{ path('app_website_organization', {organizationSlug: organization.slug}) }}">
             {{ organization.name }}<br/>
             {{ organization.address }} {{ organization.BuildingAndApartmentNumber }}<br/>
             {{ organization.postCode }} {{ organization.city }}<br/>
             {{ organization.country }}
-        </a><br/><br/>
-
-        Pojazdy:<br/>
-        {% if cars %}
-            {% for car in cars %}
-                <a href="{{
-                    path(
-                        'app_website_organization_branch_car',
-                        {
-                            organizationSlug: organization.slug,
-                            branchSlug: branch.slug,
-                            carId: car.id
-                        }
-                    )
-                }}">{{ car.brand }} {{ car.model }} ({{ car.vin }})</a><br/>
-            {% endfor %}
-        {% else %}
-            <div class="alert alert-info" role="alert">Brak danych</div>
-        {% endif %}
+        </a>
     </div>
 {% endblock %}
