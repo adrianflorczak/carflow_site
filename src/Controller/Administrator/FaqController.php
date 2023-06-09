@@ -45,7 +45,7 @@ class FaqController extends AbstractController
                 'attr' => [
                     'placeholder' => 'Priorytet',
                     'style' => 'margin: 15px;',
-                    'min'=> 0
+                    'min' => 0
                 ]
             ])
             ->add('question', TextType::class, [
@@ -71,8 +71,7 @@ class FaqController extends AbstractController
             ->getForm();
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
             $faq = new Faq();
@@ -95,7 +94,8 @@ class FaqController extends AbstractController
     }
 
     #[Route('/show-all', name: 'app_administrator_faq_show-all', methods: ['GET'])]
-    public function getAllFaqItems(): Response {
+    public function getAllFaqItems(): Response
+    {
         $faqs = $this->faqService->getAllFaqs();
         return $this->render('administrator/view/faq/view/showAll/index.html.twig', [
             'faqs' => $faqs
@@ -114,7 +114,7 @@ class FaqController extends AbstractController
                 'label' => 'Priorytet',
                 'attr' => [
                     'placeholder' => 'Priorytet.',
-                    'min'=> 0,
+                    'min' => 0,
                     'value' => $updateValue->getPriority(),
                     'style' => 'margin: 15px;',
                 ]
@@ -144,8 +144,7 @@ class FaqController extends AbstractController
             ->getForm();
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
             $updateValue->setPriority($data->priority);
@@ -191,12 +190,10 @@ class FaqController extends AbstractController
             ->getForm();
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            if ($data->confirmationText == 'TAK')
-            {
+            if ($data->confirmationText == 'TAK') {
                 try {
                     $this->faqService->removeItemById(intval($id));
                     $this->addFlash('remove_faq_item_success', 'Wartość usunięta poprawnie');
@@ -205,8 +202,7 @@ class FaqController extends AbstractController
                     $this->addFlash('remove_faq_item_error', 'Podczas usówania wartości wystąpił błąd');
                     return $this->redirectToRoute('app_administrator_faq_show-all');
                 }
-            } else
-            {
+            } else {
                 $this->addFlash(
                     'remove_faq_item_confirmation_error',
                     'Nie wpisno poprawnie tekstu potwierdzającego usunięcie zasobu.'

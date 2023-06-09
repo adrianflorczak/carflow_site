@@ -1,0 +1,58 @@
+{% extends 'administrator/base.html.twig' %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_website_home') }}">Home</a></li>
+            <li><a href="{{ path('app_administrator_home') }}">Panel administratora</a></li>
+            <li><a href="{{ path('app_administrator_organization_home') }}">Organizacje</a></li>
+            <li class="active">Pokaż wszystko</li>
+        </ol>
+    </div>
+
+{#    {% for flash_info in app.flashes('remove_faq_item_error') %}#}
+{#        <div class="alert alert-danger" role="alert">{{ flash_info }}</div>#}
+{#    {% endfor %}#}
+
+{#    {% for flash_info in app.flashes('new_faq_item_error') %}#}
+{#        <div class="alert alert-danger" role="alert">{{ flash_info }}</div>#}
+{#    {% endfor %}#}
+
+{#    {% for flash_info in app.flashes('update_faq_item_error') %}#}
+{#        <div class="alert alert-danger" role="alert">{{ flash_info }}</div>#}
+{#    {% endfor %}#}
+
+{#    {% for flash_info in app.flashes('remove_faq_item_success') %}#}
+{#        <div class="alert alert-success" role="alert">{{ flash_info }}</div>#}
+{#    {% endfor %}#}
+
+{#    {% for flash_info in app.flashes('new_faq_item_success') %}#}
+{#        <div class="alert alert-success" role="alert">{{ flash_info }}</div>#}
+{#    {% endfor %}#}
+
+{#    {% for flash_info in app.flashes('update_faq_item_success') %}#}
+{#        <div class="alert alert-success" role="alert">{{ flash_info }}</div>#}
+{#    {% endfor %}#}
+
+{#    {% if faqs %}#}
+{#        <table class="table table-condensed table-custom">#}
+{#            <thead>#}
+{#            <tr>#}
+{#                <td>Id</td>#}
+{#                <td>Priorytet</td>#}
+{#                <td>Pytanie</td>#}
+{#                <td>Odpowiedź</td>#}
+{#                <td colspan="2">Akcje</td>#}
+{#            </tr>#}
+{#            </thead>#}
+{#            <tbody>#}
+{#            #}
+{#            </tbody>#}
+{#        </table>#}
+{#    {% else %}#}
+{#        <div class="alert alert-info" role="alert">#}
+{#            Brak danych#}
+{#        </div>#}
+{#    {% endif %}#}
+{% endblock %}

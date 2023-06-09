@@ -1,0 +1,13 @@
+{% extends 'administrator/base.html.twig' %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_website_home') }}">Home</a></li>
+            <li><a href="{{ path('app_administrator_home') }}">Panel administratora</a></li>
+            <li><a href="{{ path('app_administrator_organization_home') }}">Organizacje</a></li>
+            <li class="active">Nowa organizacja</li>
+        </ol>
+    </div>
+{% endblock %}
