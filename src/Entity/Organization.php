@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OrganizationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrganizationRepository::class)]
@@ -33,6 +35,17 @@ class Organization
 
     #[ORM\Column(length: 255)]
     private ?string $country = null;
+
+    #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Branch::class)]
+    private Collection $branches;
+
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
+    public function __construct()
+    {
+        $this->branches = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +132,48 @@ class Organization
     public function setCountry(string $country): self
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Branch>
+     */
+    public function getBranches(): Collection
+    {
+        return $this->branches;
+    }
+
+    public function addBranch(Branch $branch): self
+    {
+        if (!$this->branches->contains($branch)) {
+            $this->branches->add($branch);
+            $branch->setOrganization($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBranch(Branch $branch): self
+    {
+        if ($this->branches->removeElement($branch)) {
+            // set the owning side to null (unless already changed)
+            if ($branch->getOrganization() === $this) {
+                $branch->setOrganization(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

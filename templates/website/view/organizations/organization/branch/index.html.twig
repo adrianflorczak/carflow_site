@@ -8,6 +8,14 @@
 
 {% block body %}
     <div class="container-fluid">
-        {{ organization }}: {{ branch }}
+        breadcrumbs zrobić tutaj<hr/>
+        Oddział: {{ branch.name }}<br/><br/>
+        Organizacja zarządzająca:<br/>
+        <a href="{{ path('app_website_organization', {organizationSlug: organization.slug}) }}">
+            {{ organization.name }}<br/>
+            {{ organization.address }} {{ organization.BuildingAndApartmentNumber }}<br/>
+            {{ organization.postCode }} {{ organization.city }}<br/>
+            {{ organization.country }}
+        </a>
     </div>
 {% endblock %}

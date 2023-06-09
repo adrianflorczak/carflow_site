@@ -8,6 +8,22 @@
 
 {% block body %}
     <div class="container-fluid">
-        {{ organization }}
+        {% if organization %}
+            {{ organization.name }}<br/>
+            {{ organization.address }} {{ organization.buildingAndApartmentNumber }}<br/>
+            {{ organization.postCode }} {{ organization.city }}<br/>
+            {{ organization.country }}<br/><br/>
+            Kontakt<br/>
+            Email: <a href="mailto:{{ organization.email }}">{{ organization.email }}</a><br/><br/>
+            {% if branches %}
+                Oddziały:<br/>
+                {% for branch in branches %}
+                    <a href="{{ path('app_website_organization_branch', {organizationSlug: organization.slug, branchSlug: branch.slug}) }}">{{ branch.name }}</a><br/>
+                {% endfor %}
+            {% endif %}
+
+        {% else %}
+            <div class="alert alert-info" role="alert">Brak danych</div>
+        {% endif %}
     </div>
 {% endblock %}
