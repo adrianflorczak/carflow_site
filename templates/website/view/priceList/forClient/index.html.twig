@@ -1,0 +1,17 @@
+{% extends 'website/base.html.twig' %}
+
+{% block title %}
+    <title>
+        Cennik: Dla klienta | CarFLOw.site - Ty spełniaj marzenia, My dostarczymy samochód.
+    </title>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_website_home') }}">Home</a></li>
+            <li><a href="{{ path('app_website_price-list') }}">Cennik</a></li>
+            <li class="active">Dla klienta</li>
+        </ol>
+    </div>
+{% endblock %}
