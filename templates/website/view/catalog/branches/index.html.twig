@@ -12,5 +12,28 @@
             <li><a href="{{ path('app_website_home') }}">Home</a></li>
             <li class="active">Oddziały</li>
         </ol>
+
+        {% if branches %}
+            <div class="row">
+                {% for branch in branches %}
+                    <div class="col-xs-4">
+                        <div class="thumbnail">
+                            <div class="caption">
+                                <h3>{{ branch.organization.name }}: {{ branch.name }}</h3>
+                                <p>
+                                    <a href="{{
+                                    path('app_website_organization_branch', {organizationSlug: branch.organization.slug, branchSlug: branch.slug})
+                                    }}" class="btn btn-primary" role="button">
+                                        Pokaż szczegóły
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info" role="alert">Brak danych</div>
+        {% endif %}
     </div>
 {% endblock %}

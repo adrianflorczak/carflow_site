@@ -13,6 +13,9 @@ class BranchService
         $this->branchRepository = $branchRepository;
     }
 
-
+    public function getBranches(): array
+    {
+        return $this->branchRepository->findAll();
+    }
 
 }
