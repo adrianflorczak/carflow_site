@@ -12,5 +12,24 @@
             <li><a href="{{ path('app_website_home') }}">Home</a></li>
             <li class="active">Organizacje</li>
         </ol>
+
+        {% if organizations %}
+            <div class="row">
+                {% for organization in organizations %}
+                    <div class="col-xs-4">
+                        <div class="thumbnail">
+                            <div class="caption">
+                                <h3>{{ organization.name }}</h3>
+                                <p>
+                                    <a href="{{ path('app_website_organization', {organizationSlug: organization.slug}) }}" class="btn btn-primary" role="button">Pokaż szczegóły</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info" role="alert">Brak danych</div>
+        {% endif %}
     </div>
 {% endblock %}
