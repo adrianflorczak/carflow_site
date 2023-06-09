@@ -2,12 +2,17 @@
 
 {% block title %}
     <title>
-        Nazwa Organizacji | CarFLOw.site - Ty spełniaj marzenia, My dostarczymy samochód.
+        {{ organization.name}} | CarFLOw.site - Ty spełniaj marzenia, My dostarczymy samochód.
     </title>
 {% endblock %}
 
 {% block body %}
     <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_website_home') }}">Home</a></li>
+            <li class="active">Organizacja: {{ organization.name }}</li>
+        </ol>
+
         {% if organization %}
             {{ organization.name }}<br/>
             {{ organization.address }} {{ organization.buildingAndApartmentNumber }}<br/>
