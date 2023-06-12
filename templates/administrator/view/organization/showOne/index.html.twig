@@ -1,0 +1,35 @@
+{% extends 'administrator/base.html.twig' %}
+
+{% block body %}
+
+    <div class="container-fluid" xmlns="http://www.w3.org/1999/html">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_website_home') }}">Home</a></li>
+            <li><a href="{{ path('app_administrator_home') }}">Panel administratora</a></li>
+            <li><a href="{{ path('app_administrator_organization_home') }}">Organizacje</a></li>
+            <li class="active">{{ organization.name }}</li>
+        </ol>
+
+        {% if organization %}
+            {{ organization.name }}<br/><br/>
+            Kontakt:<br/>
+            E-mail: <a href="mailto:{{ organization.email }}">{{ organization.email }}</a><br/><br/>
+
+            Adres:<br/>
+            {{ organization.address }}
+            {{ organization.buildingAndApartmentNumber }}<br/>
+            {{ organization.postCode }}<br/>
+            {{ organization.city }}<br/>
+            {{ organization.country }}<br/><br/>
+
+            Oddziały:<br/>
+            {% for branch in branches %}
+                {{ branch.name }}<br/>
+            {% endfor %}
+
+        {% else %}
+            <div class="alert alert-dange" role="alert">Brak danych</div>
+        {% endif %}
+    </div>
+
+{% endblock %}

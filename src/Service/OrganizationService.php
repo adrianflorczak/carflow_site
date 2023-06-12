@@ -27,14 +27,17 @@ class OrganizationService
         $this->carRepository = $carRepository;
     }
 
-    public
-    function getAllOrganizations(): array
+    public function getCount(): int
+    {
+        return $this->organizationRepository->count([]);
+    }
+
+    public function getAllOrganizations(): array
     {
         return $this->organizationRepository->findAll();
     }
 
-    public
-    function getOrganizationBySlug(string $slug): Organization
+    public function getOrganizationBySlug(string $slug): Organization
     {
         $organization = $this->organizationRepository->findOneBy(['slug' => $slug]);
 
@@ -45,8 +48,29 @@ class OrganizationService
         }
     }
 
-    public
-    function getBranchByOrganizationAndBranchSlug(string $organizationSlug, string $branchSlug): Branch
+    public function getOrganizationById(int $id): Organization
+    {
+        $organization = $this->organizationRepository->findOneBy(['id' => $id]);
+
+        if ($organization) {
+            return $organization;
+        } else {
+            throw new HttpException(404, 'Not Found');
+        }
+    }
+
+    public function removeOrganizationById(int $id): void
+    {
+        $organization = $this->organizationRepository->findOneBy(["id" => $id]);
+
+        if ($organization) {
+            $this->organizationRepository->remove($organization, true);
+        } else {
+            throw new HttpException(404, 'Not Found');
+        }
+    }
+
+    public function getBranchByOrganizationAndBranchSlug(string $organizationSlug, string $branchSlug): Branch
     {
         $organization = $this->organizationRepository->findOneBy(['slug' => $organizationSlug]);
 
@@ -73,8 +97,7 @@ class OrganizationService
         }
     }
 
-    public
-    function getCarByOrganizationSlugAndBranchSlugAndCarId(
+    public function getCarByOrganizationSlugAndBranchSlugAndCarId(
         string $organizationSlug,
         string $branchSlug,
         int    $carId
@@ -111,6 +134,11 @@ class OrganizationService
         } else {
             throw new HttpException(404, 'Not Found');
         }
+    }
+
+    public function saveOrganization(Organization $organization): Organization
+    {
+        return $this->organizationRepository->save($organization, true);
     }
 
 }

@@ -2,13 +2,14 @@
 
 {% block body %}
 
-    <div class="container-fluid">
+    <div class="container-fluid" xmlns="http://www.w3.org/1999/html">
         <ol class="breadcrumb">
             <li><a href="{{ path('app_website_home') }}">Home</a></li>
             <li><a href="{{ path('app_administrator_home') }}">Panel administratora</a></li>
             <li><a href="{{ path('app_administrator_organization_home') }}">Organizacje</a></li>
-            <li class="active">Nowa organizacja</li>
+            <li class="active">Edycja</li>
         </ol>
+
         {{ form_start(form) }}
 
         <div class="form-group">
@@ -50,5 +51,7 @@
             <button type="reset" class="btn btn-danger btn-xs">Opróżnij formularz</button>
         </div>
         {{ form_end(form) }}
+
     </div>
+
 {% endblock %}

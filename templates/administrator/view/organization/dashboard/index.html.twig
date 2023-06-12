@@ -8,9 +8,9 @@
     </ol>
     <div class="jumbotron" style="text-align: center;">
         <p>Liczba organizacji zarejestrowanych w systemie:</p>
-        <p>x</p>
+        <p>{{ count }}</p>
         <p>
-            <a href="#">
+            <a href="{{ path('app_administrator_organization_show-all') }}">
                 <button class="btn btn-primary">Pokaż wszystkie</button>
             </a>
         </p>

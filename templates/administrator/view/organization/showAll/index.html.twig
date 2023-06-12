@@ -9,50 +9,79 @@
             <li><a href="{{ path('app_administrator_organization_home') }}">Organizacje</a></li>
             <li class="active">Pokaż wszystko</li>
         </ol>
+
+        {% for flash_info in app.flashes('new_organization_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('remove_organization_info') %}
+            <div class="alert alert-info" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('remove_organization_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('organization_confirmation_reject_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('new_organization_success') %}
+            <div class="alert alert-success" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('remove_organization_success') %}
+            <div class="alert alert-success" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% if organizations %}
+
+            <table class="table table-condensed table-custom">
+                <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Nazwa</td>
+                    <td>Email</td>
+                    <td>Adres</td>
+                    <td>Numer budynku i lokalu</td>
+                    <td>Kod pocztowy</td>
+                    <td>Miasto</td>
+                    <td>Kraj</td>
+                    <td colspan="3">Akcje</td>
+                </tr>
+                </thead>
+                <tbody>
+                {% for organization in organizations %}
+                    <tr>
+                        <td>{{ organization.id }}</td>
+                        <td>{{ organization.name }}</td>
+                        <td>{{ organization.email }}</td>
+                        <td>{{ organization.address }}</td>
+                        <td>{{ organization.buildingAndApartmentNumber }}</td>
+                        <td>{{ organization.postCode }}</td>
+                        <td>{{ organization.city }}</td>
+                        <td>{{ organization.country }}</td>
+                        <td>
+                            <a href="{{ path('app_administrator_organization_show-one', {id: organization.id}) }}">
+                                <button type="button" class="btn btn-primary btn-xs">Pokaż</button>
+                            </a>
+                        </td><td>
+                            <a href="{{ path('app_administrator_organization_update-one', {id: organization.id}) }}">
+                                <button type="button" class="btn btn-primary btn-xs">Edytuj</button>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('app_administrator_organization_remove-one', {id: organization.id}) }}">
+                                <button type="button" class="btn btn-danger btn-xs">Usuń</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="alert alert-dange" role="alert">Brak danych</div>
+        {% endif %}
     </div>
 
-{#    {% for flash_info in app.flashes('remove_faq_item_error') %}#}
-{#        <div class="alert alert-danger" role="alert">{{ flash_info }}</div>#}
-{#    {% endfor %}#}
-
-{#    {% for flash_info in app.flashes('new_faq_item_error') %}#}
-{#        <div class="alert alert-danger" role="alert">{{ flash_info }}</div>#}
-{#    {% endfor %}#}
-
-{#    {% for flash_info in app.flashes('update_faq_item_error') %}#}
-{#        <div class="alert alert-danger" role="alert">{{ flash_info }}</div>#}
-{#    {% endfor %}#}
-
-{#    {% for flash_info in app.flashes('remove_faq_item_success') %}#}
-{#        <div class="alert alert-success" role="alert">{{ flash_info }}</div>#}
-{#    {% endfor %}#}
-
-{#    {% for flash_info in app.flashes('new_faq_item_success') %}#}
-{#        <div class="alert alert-success" role="alert">{{ flash_info }}</div>#}
-{#    {% endfor %}#}
-
-{#    {% for flash_info in app.flashes('update_faq_item_success') %}#}
-{#        <div class="alert alert-success" role="alert">{{ flash_info }}</div>#}
-{#    {% endfor %}#}
-
-{#    {% if faqs %}#}
-{#        <table class="table table-condensed table-custom">#}
-{#            <thead>#}
-{#            <tr>#}
-{#                <td>Id</td>#}
-{#                <td>Priorytet</td>#}
-{#                <td>Pytanie</td>#}
-{#                <td>Odpowiedź</td>#}
-{#                <td colspan="2">Akcje</td>#}
-{#            </tr>#}
-{#            </thead>#}
-{#            <tbody>#}
-{#            #}
-{#            </tbody>#}
-{#        </table>#}
-{#    {% else %}#}
-{#        <div class="alert alert-info" role="alert">#}
-{#            Brak danych#}
-{#        </div>#}
-{#    {% endif %}#}
 {% endblock %}
