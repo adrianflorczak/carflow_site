@@ -10,6 +10,10 @@
             <li class="active">{{ organization.name }}</li>
         </ol>
 
+        <a href="{{ path('app_administrator_organization_update-one', {id: organization.id}) }}"><button class="btn btn-default btn-xs">Edytuj</button></a>
+        <a href="{{ path('app_administrator_organization_remove-one', {id: organization.id}) }}"><button class="btn btn-danger btn-xs">Usuń</button></a><br/><br/>
+
+
         {% if organization %}
             {{ organization.name }}<br/><br/>
             Kontakt:<br/>
