@@ -12,6 +12,10 @@
         {{ form_start(form) }}
 
         <div class="form-group">
+            <label for="car_branchId">Oddział</label><br/>
+            {{ form_row(form.branch, {'label': false, 'attr': { class: 'form-control', placeholder: 'Oddział' }}) }}
+        </div>
+        <div class="form-group">
             <label for="car_brand">Marka</label><br/>
             {{ form_row(form.brand, {'label': false, 'attr': { class: 'form-control', placeholder: 'Marka' }}) }}
         </div>

@@ -9,8 +9,6 @@ use App\Form\administrator\car\RemoveCarType;
 use App\Repository\BranchRepository;
 use App\Service\CarService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -52,8 +50,12 @@ class CarController extends AbstractController
     public function getCar(string $id): Response
     {
         $car = $this->carService->getCar(intval($id));
+        $branch = $car->getBranch();
+        $organization = $branch->getOrganization();
 
         return $this->render('administrator/view/car/showOne/index.html.twig', [
+            'branch' => $branch,
+            'organization' => $organization,
             'car' => $car,
             'technicalExaminationDate' => $car->getTechnicalExaminationDate()->format('d-m-Y'),
             'insuranceExpirationDate' => $car->getInsuranceExpirationDate()->format('d-m-Y')
@@ -70,7 +72,7 @@ class CarController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $car->setBranch($this->branchRepository->findOneBy(['id' => 1])); // do poprawy
+            $car->setBranch($data->getBranch());
             $car->setBrand($data->getBrand());
             $car->setModel($data->getModel());
             $car->setVin($data->getVin());
@@ -109,11 +111,12 @@ class CarController extends AbstractController
         $car = new Car();
 
         $form = $this->createForm(CarType::class, $car);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $car->setBranch($this->branchRepository->findOneBy(['id' => 1])); // do poprawy
+            $car->setBranch($data->getBranch());
             $car->setBrand($data->getBrand());
             $car->setModel($data->getModel());
             $car->setVin($data->getVin());

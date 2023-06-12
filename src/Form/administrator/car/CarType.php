@@ -3,6 +3,7 @@
 namespace App\Form\administrator\car;
 
 use App\Entity\Car;
+use App\Repository\BranchRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
@@ -14,17 +15,36 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CarType extends AbstractType
 {
+    private $branchesArray = [];
+
+    public function __construct(BranchRepository $branchRepository)
+    {
+        $branchesFromDb = $branchRepository->findAll();
+
+        foreach ($branchesFromDb as $branch)
+        {
+            $this->branchesArray += [
+                $branch->getName() . " (" . $branch->getOrganization()->getName() . ") "
+                => $branch
+            ];
+        }
+
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Car::class
+            'data_class' => Car::class,
+            'branches' => $this->branchesArray
         ]);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('branch', ChoiceType::class, [
+                'choices' => $options['branches']
+            ])
             ->add('brand', TextType::class)
             ->add('model', TextType::class)
             ->add('vin', TextType::class)

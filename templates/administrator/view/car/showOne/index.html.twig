@@ -18,11 +18,17 @@
         Vin: {{ car.vin }}<br/>
         Segment: {{ car.segment }}<br/>
         Nadwozie: {{ car.bodyType }}<br/>
-        Kolor: <span style="color: {{ car.color }}">{{ car.color }}</span>
+        Kolor: <span style="color: {{ car.color }}">{{ car.color }}</span><br/>
         Liczba siedzeń: {{ car.numberOfSeats }}<br/>
         Liczba drzwi: {{ car.numberOfDoors }}<br/>
         Rodzaj napędu: {{ car.fuel }}<br/>
         Termin badania technicznego: {{ technicalExaminationDate }}<br/>
-        Termin polisy ubezpieczeniowej: {{ insuranceExpirationDate }}
+        Termin polisy ubezpieczeniowej: {{ insuranceExpirationDate }}<br/><br/>
+
+        Aktualny oddział:<br/>
+        {{ branch.name }}<br/><br/>
+
+        Organizacja nadzorująca:<br/>
+        {{ organization.name }}
     </div>
 {% endblock %}
