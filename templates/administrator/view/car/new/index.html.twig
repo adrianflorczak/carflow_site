@@ -1,0 +1,74 @@
+{% extends 'administrator/base.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_website_home') }}">Home</a></li>
+            <li><a href="{{ path('app_administrator_home') }}">Panel administratora</a></li>
+            <li><a href="{{ path('app_administrator_car_home') }}">Pojazdy</a></li>
+            <li class="active">Nowy wpis</li>
+        </ol>
+
+        {{ form_start(form) }}
+
+        <div class="form-group">
+            <label for="car_brand">Marka</label><br/>
+            {{ form_row(form.brand, {'label': false, 'attr': { class: 'form-control', placeholder: 'Marka' }}) }}
+        </div>
+        <div class="form-group">
+            <label for="car_model">Model</label><br/>
+            {{ form_row(form.model, {'label': false, 'attr': { class: 'form-control', placeholder: 'Model' }}) }}
+        </div>
+        <div class="form-group">
+            <label for="car_vin">Vin (numer identyfikacyjny pojazdu)</label><br/>
+            {{ form_row(form.vin, {'label': false, 'attr': { class: 'form-control', placeholder: 'Vin' }}) }}
+        </div>
+        <div class="form-group">
+            <label for="car_segment">Segment</label><br/>
+            {{ form_row(form.segment, {'label': false, 'attr': { class: 'form-control', placeholder: 'Segment' }}) }}
+        </div>
+        <div class="form-group">
+            <label for="car_bodyType">Typ nadwozia</label><br/>
+            {{ form_row(form.bodyType, {'label': false, 'attr': { class: 'form-control', placeholder: 'Typ nadwozia' }}) }}
+        </div>
+        <div class="form-group">
+            <label for="car_color">Kolor</label><br/>
+            {{ form_row(form.color, {'label': false, 'attr': { class: 'form-control', placeholder: 'Kolor' }}) }}
+        </div>
+        <div class="form-group">
+            <label for="car_fuel">Rodzaj paliwa</label><br/>
+            {{ form_row(form.fuel, {'label': false, 'attr': { class: 'form-control', placeholder: 'Rodzaj paliwa' }}) }}
+        </div>
+        <div class="form-group">
+            <label for="car_numberOfSeats">Liczba miejsc</label><br/>
+            {{ form_row(form.numberOfSeats, {'label': false, 'attr': { class: 'form-control', placeholder: 'Liczba miejsc' }}) }}
+        </div>
+        <div class="form-group">
+            <label for="car_numberOfDoors">Liczba drzwi</label><br/>
+            {{ form_row(form.numberOfDoors, {'label': false, 'attr': { class: 'form-control', placeholder: 'Liczba drzwi' }}) }}
+        </div>
+        <div class="form-group">
+            <label for="car_registrationNumber">Numer rejestracyjny</label><br/>
+            {{ form_row(form.registrationNumber, {'label': false, 'attr': { class: 'form-control', placeholder: 'Numer rejestracyjny' }}) }}
+        </div>
+        <div class="form-group">
+            <label for="car_technicalExaminationDate">Termin badania technicznego</label><br/>
+            {{ form_row(form.technicalExaminationDate, {'label': false, 'attr': { class: 'form-control', placeholder: 'Termin badania technicznego' }}) }}
+        </div>
+        <div class="form-group">
+            <label for="car_insuranceExpirationDate">Termin ubezpieczenia</label><br/>
+            {{ form_row(form.insuranceExpirationDate, {'label': false, 'attr': { class: 'form-control', placeholder: 'Termin ubezpieczenia' }}) }}
+        </div>
+        <div class="form-group">
+            <label for="car_mileage">Przebieg</label><br/>
+            {{ form_row(form.mileage, {'label': false, 'attr': { class: 'form-control', placeholder: 'Przebieg' }}) }}
+        </div>
+        <div style="margin-bottom: 15px; text-align: center;">
+            <button type="submit" class="btn btn-success">Zapisz</button>
+        </div>
+        <div style="text-align: center;">
+            <button type="reset" class="btn btn-danger btn-xs">Opróżnij formularz</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

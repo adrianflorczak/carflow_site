@@ -15,8 +15,13 @@
             <li><a href="{{ path('app_website_organization_branch', {organizationSlug: organization.slug, branchSlug: branch.slug}) }}">{{ branch.name }}</a></li>
             <li class="active">{{ car.brand }} {{ car.model }} (Id: {{ car.id }})</li>
         </ol>
-        {{ car.brand }} {{ car.model }}<br/>
-        {{ car.vin }}<br/><br/>
+        {{ car.brand }} {{ car.model }} ( {{ car.registrationNumber }} )<br/><br/>
+        Szczegóły techniczne:<br/>
+        Liczba miejsc: {{ car.numberOfSeats }}<br/>
+        Liczba drzwi: {{ car.numberOfDoors }}<br/>
+        Segment: {{ car.segment }}<br/>
+        Nadwozie: {{ car.bodyType }}<br/>
+        Kolor: {{ car.color }}<br/><br/>
 
         Aktualny oddział:<br/>
         <a href="{{ path('app_website_organization_branch', {organizationSlug: organization.slug, branchSlug: branch.slug}) }}">{{ branch.name }}</a><br/><br/>

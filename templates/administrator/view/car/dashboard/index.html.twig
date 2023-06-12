@@ -1,0 +1,16 @@
+{% extends 'administrator/base.html.twig' %}
+
+{% block body %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('app_website_home') }}">Home</a></li>
+        <li><a href="{{ path('app_administrator_home') }}">Panel administratora</a></li>
+        <li class="active">Pojazdy</li>
+    </ol>
+    <div class="jumbotron" style="text-align: center;">
+        <p>Liczba pojazdów zarejestrowyanych w systemie:</p>
+        <p>{{ counter }}</p>
+        <p>
+            <a href="{{ path('app_administrator_car_show-all') }}"><button class="btn btn-primary">Pokaż wszystkie</button></a>
+        </p>
+    </div>
+{% endblock %}

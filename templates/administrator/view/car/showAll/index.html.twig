@@ -1,0 +1,78 @@
+{% extends 'administrator/base.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_website_home') }}">Home</a></li>
+            <li><a href="{{ path('app_administrator_home') }}">Panel administratora</a></li>
+            <li><a href="{{ path('app_administrator_car_home') }}">Pojazdy</a></li>
+            <li class="active">Pokaż wszystko</li>
+        </ol>
+
+        {% for flash_info in app.flashes('new_car_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('remove_car_exception') %}
+            <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('confirmation_reject_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('new_car_success') %}
+            <div class="alert alert-success" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('remove_car_success') %}
+            <div class="alert alert-success" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% if cars %}
+
+            <table class="table table-condensed table-custom">
+                <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Marka</td>
+                    <td>Model</td>
+                    <td>Segment</td>
+                    <td>Nadwozie</td>
+                    <td>Numer rejestracyjny</td>
+                    <td colspan="3">Akcje</td>
+                </tr>
+                </thead>
+                <tbody>
+                {% for car in cars %}
+                    <tr>
+                        <td>{{ car.id }}</td>
+                        <td>{{ car.brand }}</td>
+                        <td>{{ car.model }}</td>
+                        <td>{{ car.segment }}</td>
+                        <td>{{ car.bodyType }}</td>
+                        <td>{{ car.registrationNumber }}</td>
+                        <td>
+                            <a href="{{ path('app_administrator_car_show-car', {id: car.id}) }}">
+                                <button type="button" class="btn btn-primary btn-xs">Pokaż</button>
+                            </a>
+                        </td><td>
+                            <a href="{{ path('app_administrator_car_update-car', {id: car.id}) }}">
+                                <button type="button" class="btn btn-primary btn-xs">Edytuj</button>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('app_administrator_car_remove-car', {id: car.id}) }}">
+                                <button type="button" class="btn btn-danger btn-xs">Usuń</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        {% else %}
+            <div class="alert alert-info" role="alert">Brak danych</div>
+        {% endif %}
+    </div>
+{% endblock %}

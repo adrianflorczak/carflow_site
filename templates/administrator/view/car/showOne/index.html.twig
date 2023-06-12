@@ -1,0 +1,28 @@
+{% extends 'administrator/base.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_website_home') }}">Home</a></li>
+            <li><a href="{{ path('app_administrator_home') }}">Panel administratora</a></li>
+            <li><a href="{{ path('app_administrator_car_home') }}">Pojazdy</a></li>
+            <li class="active">Id: {{ car.id }}, {{ car.brand }} {{ car.model }} ( {{ car.registrationNumber }} )</li>
+        </ol>
+        <a href="{{ path('app_administrator_car_update-car', {id: car.id}) }}"><button class="btn btn-default btn-xs">Edytuj</button></a>
+        <a href="{{ path('app_administrator_car_remove-car', {id: car.id}) }}"><button class="btn btn-danger btn-xs">Usuń</button></a><br/><br/>
+
+        Identyfikator pojazdu: {{ car.id }}<hr/>
+        {{ car.brand }} {{ car.model }}<br/>
+        Numer rejestracyjny: {{ car.registrationNumber }}<br/>
+        Przebieg: {{ car.mileage }}<br/>
+        Vin: {{ car.vin }}<br/>
+        Segment: {{ car.segment }}<br/>
+        Nadwozie: {{ car.bodyType }}<br/>
+        Kolor: <span style="color: {{ car.color }}">{{ car.color }}</span>
+        Liczba siedzeń: {{ car.numberOfSeats }}<br/>
+        Liczba drzwi: {{ car.numberOfDoors }}<br/>
+        Rodzaj napędu: {{ car.fuel }}<br/>
+        Termin badania technicznego: {{ technicalExaminationDate }}<br/>
+        Termin polisy ubezpieczeniowej: {{ insuranceExpirationDate }}
+    </div>
+{% endblock %}

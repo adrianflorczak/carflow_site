@@ -1,0 +1,25 @@
+{% extends 'administrator/base.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_website_home') }}">Home</a></li>
+            <li><a href="{{ path('app_administrator_home') }}">Panel administratora</a></li>
+            <li><a href="{{ path('app_administrator_car_home') }}">Pojazdy</a></li>
+            <li class="active">Usuń wpis</li>
+        </ol>
+
+        {{ form_start(form) }}
+        <div class="form-group">
+            <label for="remove_car_confirmation">Czy na pewno chcesz usunąć ?</label>
+            {{ form_row(form.confirmation, {
+                'label': false,
+                'attr': {
+                    'class': 'form-control'
+                }
+            }) }}
+        </div>
+        <button type="submit" class="btn btn-danger">Potwierdź</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

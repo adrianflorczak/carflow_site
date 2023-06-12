@@ -21,13 +21,15 @@ class CarRepository extends ServiceEntityRepository
         parent::__construct($registry, Car::class);
     }
 
-    public function save(Car $entity, bool $flush = false): void
+    public function save(Car $entity, bool $flush = false): Car
     {
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+
+        return $entity;
     }
 
     public function remove(Car $entity, bool $flush = false): void
