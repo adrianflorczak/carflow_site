@@ -7,6 +7,7 @@ use App\Form\administrator\car\CarType;
 use App\Form\administrator\car\helper\ConfirmationClass;
 use App\Form\administrator\car\RemoveCarType;
 use App\Repository\BranchRepository;
+use App\Service\BranchService;
 use App\Service\CarService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,12 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class CarController extends AbstractController
 {
     private CarService $carService;
-    private BranchRepository $branchRepository;
+    private BranchService $branchService;
 
-    public function __construct(CarService $carService, BranchRepository $branchRepository)
+    public function __construct(CarService $carService, BranchService $branchService)
     {
         $this->carService = $carService;
-        $this->branchRepository = $branchRepository;
+        $this->branchService = $branchService;
     }
 
     #[Route('', name: 'app_administrator_car_home', methods: ['GET'])]
@@ -108,45 +109,52 @@ class CarController extends AbstractController
     #[Route('/create-new', name: 'app_administrator_car_create-new', methods: ['GET', 'POST'], priority: 10)]
     public function newCar(Request $request): Response
     {
-        $car = new Car();
 
-        $form = $this->createForm(CarType::class, $car);
+        if(count($this->branchService->getBranches()))
+        {
+            $car = new Car();
 
-        $form->handleRequest($request);
+            $form = $this->createForm(CarType::class, $car);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $car->setBranch($data->getBranch());
-            $car->setBrand($data->getBrand());
-            $car->setModel($data->getModel());
-            $car->setVin($data->getVin());
-            $car->setSegment($data->getSegment());
-            $car->setBodyType($data->getBodyType());
-            $car->setColor($data->getColor());
-            $car->setFuel($data->getFuel());
-            $car->setNumberOfSeats($data->getNumberOfSeats());
-            $car->setNumberOfDoors($data->getNumberOfDoors());
-            $car->setRegistrationNumber($data->getRegistrationNumber());
-            $car->setTechnicalExaminationDate($data->getTechnicalExaminationDate());
-            $car->setInsuranceExpirationDate($data->getInsuranceExpirationDate());
-            $car->setMileage($data->getMileage());
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $data = $form->getData();
+                $car->setBranch($data->getBranch());
+                $car->setBrand($data->getBrand());
+                $car->setModel($data->getModel());
+                $car->setVin($data->getVin());
+                $car->setSegment($data->getSegment());
+                $car->setBodyType($data->getBodyType());
+                $car->setColor($data->getColor());
+                $car->setFuel($data->getFuel());
+                $car->setNumberOfSeats($data->getNumberOfSeats());
+                $car->setNumberOfDoors($data->getNumberOfDoors());
+                $car->setRegistrationNumber($data->getRegistrationNumber());
+                $car->setTechnicalExaminationDate($data->getTechnicalExaminationDate());
+                $car->setInsuranceExpirationDate($data->getInsuranceExpirationDate());
+                $car->setMileage($data->getMileage());
 
 
-            try {
-                $this->carService->saveCar($car);
-                echo 'ok';
-                $this->addFlash('new_car_success', 'Poprawnie zapisano nową wartość');
-            } catch (HttpException $e) {
-                echo $e;
-                $this->addFlash('new_car_error', 'Podczas zapisywania nowej wartości wystąpił błąd');
-            } finally {
-                return $this->redirectToRoute('app_administrator_car_show-all');
+                try {
+                    $this->carService->saveCar($car);
+                    echo 'ok';
+                    $this->addFlash('new_car_success', 'Poprawnie zapisano nową wartość');
+                } catch (HttpException $e) {
+                    echo $e;
+                    $this->addFlash('new_car_error', 'Podczas zapisywania nowej wartości wystąpił błąd');
+                } finally {
+                    return $this->redirectToRoute('app_administrator_car_show-all');
+                }
             }
-        }
 
-        return $this->render('administrator/view/car/new/index.html.twig', [
-            'form' => $form
-        ]);
+            return $this->render('administrator/view/car/new/index.html.twig', [
+                'form' => $form
+            ]);
+        } else {
+            $this->addFlash('not_branch_in_car_error', 'Aby dodać nowy pojazd w systemie musi być zarejestrowany przynajmniej jeden oddział');
+            return $this->redirectToRoute('app_administrator_car_show-all');
+        }
     }
 
     #[Route('/{id}/remove-car', name: 'app_administrator_car_remove-car', methods: ['GET', 'POST'])]

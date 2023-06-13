@@ -13,6 +13,10 @@
             <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
         {% endfor %}
 
+        {% for flash_info in app.flashes('not_branch_in_car_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
         {% for flash_info in app.flashes('remove_car_exception') %}
             <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
         {% endfor %}

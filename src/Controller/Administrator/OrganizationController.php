@@ -142,7 +142,7 @@ class OrganizationController extends AbstractController
             if ($data->getConfirmation())
             {
 
-                if ($this->organizationService->getOrganizationById(intval($id))->getBranches())
+                if (count($this->organizationService->getOrganizationById(intval($id))->getBranches()))
                 {
                     $this->addFlash('remove_organization_info', 'Nie można usunąć organizacji ponieważ posiada ona aktywne oddziały.');
                     return $this->redirectToRoute('app_administrator_organization_show-all');

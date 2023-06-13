@@ -7,6 +7,7 @@ use App\Form\administrator\branch\BranchType;
 use App\Form\administrator\branch\helper\ConfirmationClass;
 use App\Form\administrator\organization\RemoveOrganizationType;
 use App\Service\BranchService;
+use App\Service\OrganizationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,10 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class BranchController extends AbstractController
 {
     private BranchService $branchService;
+    private OrganizationService $organizationService;
 
-    public function __construct(BranchService $branchService)
+    public function __construct(BranchService $branchService, OrganizationService $organizationService)
     {
         $this->branchService = $branchService;
+        $this->organizationService = $organizationService;
     }
 
     #[Route('', name: 'app_administrator_branch_home', methods: ['GET'])]
@@ -36,32 +39,38 @@ class BranchController extends AbstractController
     #[Route('/create-new', name: 'app_administrator_branch_create-new', methods: ['GET', 'POST'])]
     public function createBranch(Request $request): Response
     {
-        $branch = new Branch();
-
-        $form = $this->createForm(BranchType::class, $branch);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
+        if (count($this->organizationService->getAllOrganizations()))
         {
-            $data = $form->getData();
+            $branch = new Branch();
 
-            $branch->setName($data->getName());
-            $branch->setOrganization($data->getOrganization());
-            $branch->setSlug($data->getSlug());
+            $form = $this->createForm(BranchType::class, $branch);
+            $form->handleRequest($request);
 
-            try {
-                $this->branchService->saveBranch($branch);
-                $this->addFlash('create_branch_success', 'Pomyślnie utworzono nowy oddział');
-            } catch (HttpException $e) {
-                $this->addFlash('create_branch_error', 'Podczas tworzenia nowego oddziału wystąpił błąd');
-            } finally {
-                return $this->redirectToRoute('app_administrator_branch_show-all');
+            if ($form->isSubmitted() && $form->isValid())
+            {
+                $data = $form->getData();
+
+                $branch->setName($data->getName());
+                $branch->setOrganization($data->getOrganization());
+                $branch->setSlug($data->getSlug());
+
+                try {
+                    $this->branchService->saveBranch($branch);
+                    $this->addFlash('create_branch_success', 'Pomyślnie utworzono nowy oddział');
+                } catch (HttpException $e) {
+                    $this->addFlash('create_branch_error', 'Podczas tworzenia nowego oddziału wystąpił błąd');
+                } finally {
+                    return $this->redirectToRoute('app_administrator_branch_show-all');
+                }
             }
-        }
 
-        return $this->render('administrator/view/branch/new/index.html.twig', [
-            'form' => $form
-        ]);
+            return $this->render('administrator/view/branch/new/index.html.twig', [
+                'form' => $form
+            ]);
+        } else {
+            $this->addFlash('not_organization_in_branch_error', 'Aby utworzyć nowy oddział w systemie musi być zarejestrowana przynajmniej jedna organizacja.');
+            return $this->redirectToRoute('app_administrator_branch_show-all');
+        }
     }
 
     #[Route('/show-all', name: 'app_administrator_branch_show-all', methods: ['GET'])]
