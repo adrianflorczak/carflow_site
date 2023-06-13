@@ -1,0 +1,82 @@
+{% extends 'administrator/base.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_website_home') }}">Home</a></li>
+            <li><a href="{{ path('app_administrator_home') }}">Panel administratora</a></li>
+            <li><a href="{{ path('app_administrator_branch_home') }}">Oddziały</a></li>
+            <li class="active">Pokaż wszystkie</li>
+        </ol>
+
+        {% for flash_info in app.flashes('create_branch_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('update_branch_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('branch_remove_confirmation_reject_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('remove_branch_exception') %}
+            <div class="alert alert-danger" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('remove_branch_success') %}
+            <div class="alert alert-success" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('update_branch_success') %}
+            <div class="alert alert-success" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('create_branch_success') %}
+            <div class="alert alert-success" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% for flash_info in app.flashes('remove_branch_info') %}
+            <div class="alert alert-info" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+
+        {% if branches %}
+            <table class="table table-condensed table-custom">
+                <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Nazwa</td>
+                    <td>Organizacja</td>
+                    <td colspan="3">Akcje</td>
+                </tr>
+                </thead>
+                <tbody>
+                {% for branch in branches %}
+                    <tr>
+                        <td>{{ branch.branch.id }}</td>
+                        <td>{{ branch.branch.name }}</td>
+                        <td>{{ branch.organization.name }}</td>
+                        <td>
+                            <a href="{{ path('app_administrator_branch_show-one', {id: branch.branch.id}) }}">
+                                <button type="button" class="btn btn-primary btn-xs">Pokaż</button>
+                            </a>
+                        </td><td>
+                            <a href="{{ path('app_administrator_branch_update-one', {id: branch.branch.id}) }}">
+                                <button type="button" class="btn btn-primary btn-xs">Edytuj</button>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('app_administrator_branch_remove-one', {id: branch.branch.id}) }}">
+                                <button type="button" class="btn btn-danger btn-xs">Usuń</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="alert alert-info" role="alert">Brak danych</div>
+        {% endif %}
+    </div>
+{% endblock %}

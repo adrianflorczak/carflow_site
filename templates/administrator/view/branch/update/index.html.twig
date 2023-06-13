@@ -1,0 +1,33 @@
+{% extends 'administrator/base.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_website_home') }}">Home</a></li>
+            <li><a href="{{ path('app_administrator_home') }}">Panel administratora</a></li>
+            <li><a href="{{ path('app_administrator_branch_home') }}">Oddziały</a></li>
+            <li><a href="{{ path('app_administrator_branch_show-one', {id: branch.id}) }}">{{ branch.name }} ( {{ organization.name }} )</a></li>
+            <li class="active">Aktualizacja</li>
+        </ol>
+        {{ form_start(form) }}
+        <div class="form-group">
+            <label for="branch_name">Nazwa</label><br/>
+            {{ form_row(form.name, {'label': false, 'attr': { class: 'form-control', placeholder: 'Nazwa' }}) }}
+        </div>
+        <div class="form-group">
+            <label for="branch_organization">Organizacja</label><br/>
+            {{ form_row(form.organization, {'label': false, 'attr': { class: 'form-control', placeholder: 'Organizacja' }}) }}
+        </div>
+        <div class="form-group">
+            <label for="branch_slug">Slug</label><br/>
+            {{ form_row(form.slug, {'label': false, 'attr': { class: 'form-control', placeholder: 'Slug' }}) }}
+        </div>
+        <div style="margin-bottom: 15px; text-align: center;">
+            <button type="submit" class="btn btn-success">Zaktualizuj</button>
+        </div>
+        <div style="text-align: center;">
+            <button type="reset" class="btn btn-danger btn-xs">Opróżnij formularz</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
