@@ -46,6 +46,8 @@ class RegistrationController extends AbstractController
             } else {
                 $user->setRoles(['ROLE_CLIENT']);
             }
+            $user->setName($form->get('name')->getData());
+            $user->setName($form->get('surname')->getData());
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
