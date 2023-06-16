@@ -9,7 +9,19 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/service-panel')]
 class ServicePanelController extends AbstractController
 {
-    #[Route('', name: 'app_website_servicePanel', methods: ['GET'], priority: 10)]
+    #[Route(
+        '/{reactRouterOne}/{reactRouterTwo}/{reactRouterThree}/{reactRouterFour}/{reactRouterFive}',
+        name: 'app_website_servicePanel',
+        defaults: [
+            'reactRouterOne' => null,
+            'reactRouterTwo' => null,
+            'reactRouterThree' => null,
+            'reactRouterFour' => null,
+            'reactRouterFive' => null
+        ],
+        methods: ['GET'],
+        priority: 10
+    )]
     public function organizationsPanel(): Response {
         return $this->render('website/view/servicePanel/index.html.twig', []);
     }

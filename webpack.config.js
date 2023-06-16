@@ -21,6 +21,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('website', './assets/website/global.js')
+    .addEntry('servicePanel', './assets/website/view/servicePanel/app.js')
     .addEntry('administrator', './assets/administrator/global.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
@@ -61,7 +62,7 @@ Encore
     //.enableTypeScriptLoader()
 
     // uncomment if you use React
-    //.enableReactPreset()
+    .enableReactPreset()
 
     // uncomment to get integrity="..." attributes on your script & link tags
     // requires WebpackEncoreBundle 1.4 or higher

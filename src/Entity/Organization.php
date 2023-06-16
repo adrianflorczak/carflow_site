@@ -42,6 +42,10 @@ class Organization
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[ORM\ManyToOne(inversedBy: 'organizations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $admin = null;
+
     public function __construct()
     {
         $this->branches = new ArrayCollection();
@@ -174,6 +178,18 @@ class Organization
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getAdmin(): ?User
+    {
+        return $this->admin;
+    }
+
+    public function setAdmin(?User $admin): self
+    {
+        $this->admin = $admin;
 
         return $this;
     }

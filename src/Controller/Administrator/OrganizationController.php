@@ -46,6 +46,7 @@ class OrganizationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
+            $organization->setAdmin($data->getAdmin());
             $organization->setName($data->getName());
             $organization->setEmail($data->getEmail());
             $organization->setAddress($data->getAddress());
@@ -103,6 +104,7 @@ class OrganizationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $organization->setAdmin($data->getAdmin());
             $organization->setName($data->getName());
             $organization->setEmail($data->getEmail());
             $organization->setAddress($data->getAddress());

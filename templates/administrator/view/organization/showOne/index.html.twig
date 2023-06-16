@@ -16,6 +16,11 @@
 
         {% if organization %}
             {{ organization.name }}<br/><br/>
+
+            Administrator: <br/>
+            {{ organization.admin.name }} {{ organization.admin.surname }}<br/>
+            {{ organization.admin.email }}<br/><br/>
+
             Kontakt:<br/>
             E-mail: <a href="mailto:{{ organization.email }}">{{ organization.email }}</a><br/><br/>
 

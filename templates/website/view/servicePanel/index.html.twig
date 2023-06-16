@@ -6,11 +6,26 @@
     </title>
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('servicePanel') }}
+{% endblock %}
+
+    {% block javascripts %}
+        {{ parent() }}
+        {{ encore_entry_script_tags('servicePanel') }}
+    {% endblock %}
+
 {% block body %}
     <div class="container-fluid">
-        <ol class="breadcrumb">
-            <li><a href="{{ path('app_website_home') }}">Home</a></li>
-            <li class="active">Panel obsługi</li>
-        </ol>
+        <noscript>
+            <div class="alert alert-warning text-center">
+                W celu prawidłowego użytkowania aplikacji obsługi na platformie CarFLOw.Site proszę włączyć obsługe
+                JavaScript w przeglądarce.
+            </div>
+        </noscript>
+        <div id="servicePanelApp">
+            Trwa ładowanie aplikacji obsługi...
+        </div>
     </div>
 {% endblock %}
