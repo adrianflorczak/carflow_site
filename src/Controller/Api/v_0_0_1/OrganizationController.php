@@ -18,183 +18,88 @@ use Symfony\Component\Routing\Annotation\Route;
 class OrganizationController extends AbstractController
 {
     private OrganizationService $organizationService;
-    private BranchService $branchService;
-    private UserService $userService;
-    private Security $security;
 
-
-    public function __construct(
-        OrganizationService $organizationService,
-        BranchService $branchService,
-        UserService $userService,
-        Security $security
-    )
+    public function __construct(OrganizationService $organizationService)
     {
         $this->organizationService = $organizationService;
-        $this->branchService = $branchService;
-        $this->userService = $userService;
-        $this->security = $security;
     }
 
-    #[Route('', name: 'app_api_organizations_new-organization', methods: ['POST'])]
-    public function newOrganization(Request $request): Response
+    #[Route('', name: 'app_api_organizations_create-new-organization', methods: ['POST'])]
+    public function createNewOrganization(Request $request): Response
     {
         $payload = json_decode($request->getContent(), false);
-
-        $loggedUser = $this->security->getUser();
-        $userEmail = $loggedUser->getUserIdentifier();
-        $user = $this->userService->getUserByEmail($userEmail);
-
-        $organization = new Organization();
-
-        $organization->setAdmin($user);
-        $organization->setName($payload->name);
-        $organization->setEmail($payload->email);
-        $organization->setAddress($payload->address);
-        $organization->setBuildingAndApartmentNumber($payload->buildingAndApartmentNumber);
-        $organization->setPostCode($payload->postCode);
-        $organization->setCity($payload->city);
-        $organization->setCountry($payload->country);
-        $organization->setSlug($payload->slug);
-
-        $this->organizationService->saveOrganization($organization);
+        $organization = [
+            'name' => $payload->name,
+            'email' => $payload->email,
+            'address' => $payload->address,
+            'buildingAndApartmentNumber' => $payload->buildingAndApartmentNumber,
+            'postCode' => $payload->postCode,
+            'city' => $payload->city,
+            'country' => $payload->country,
+            'slug' => $payload->slug
+        ];
+        $this->organizationService->createOrganizationForCurrentlyLoggedUser($organization);
 
         return $this->json(null, 201);
-
-
     }
 
-    #[Route('', name: 'app_api_organizations_get-organizations-by-admin-email', methods: ['GET'])]
-    public function getOrganizationsByAdminEmail(): Response
+    #[Route('', name: 'app_api_organizations_get-organizations', methods: ['GET'])]
+    public function getOrganizations(): Response
     {
-        $loggedUser = $this->security->getUser();
-        $userEmail = $loggedUser->getUserIdentifier();
+        $organizations = $this->organizationService->getOrganizationsCurrentlyLoggedUser();
 
-        $organizations = $this->organizationService->getOrganizationsByEmailLoggedUser($userEmail);
-
-        $array = [];
-
-        foreach ($organizations as $organization)
-        {
-            $item = [
-                'id' => $organization->getId(),
-                'name' => $organization->getName()
-            ];
-            array_push($array, $item);
-        }
-
-        return $this->json([
-            'organizations' => $array
-        ], 200);
+        return $this->json($organizations);
     }
 
-    #[Route('/{id}/branches/new', name: 'app_api_organizations_new-branch-in-organization', methods: ['POST'])]
-    public function newBranchInOrganization(Request $request, string $id): Response
-    {
-        $payload = json_decode($request->getContent(), false);
-
-        $loggedUser = $this->security->getUser();
-        $userEmail = $loggedUser->getUserIdentifier();
-
-        $organizations = $this->organizationService->getOrganizationsByEmailLoggedUser($userEmail);
-        $organization = null;
-
-        foreach ($organizations as $localOrganization)
-        {
-            if ($localOrganization->getId() === intval($id))
-            {
-                $organization = $localOrganization;
-            }
-        }
-
-        if ($organization)
-        {
-            $branch = new Branch();
-            $branch->setOrganization($organization);
-            $branch->setName($payload->name);
-            $branch->setSlug($payload->slug);
-
-            $this->branchService->saveBranch($branch);
-
-            return $this->json(null, 201);
-
-        } else {
-            throw new HttpException(403, 'Brak dostępu');
-        }
-    }
-
-    #[Route('/{id}/branches', name: 'app_api_organizations_get-branches-by-organization-by-admin-email', methods: ['GET'])]
-    public function getBranchesByOrganizationByAdminEmail(string $id): Response
-    {
-        $loggedUser = $this->security->getUser();
-        $userEmail = $loggedUser->getUserIdentifier();
-
-        $organizations = $this->organizationService->getOrganizationsByEmailLoggedUser($userEmail);
-        $organization = null;
-
-
-        foreach ($organizations as $localOrganization)
-        {
-            if ($localOrganization->getId() === intval($id))
-            {
-                $organization = $localOrganization;
-            }
-        }
-
-        if ($organization)
-        {
-            $branches = $organization->getBranches();
-            $response = [];
-
-            foreach ($branches as $branch)
-            {
-                $response[] = [
-                    'id' => $branch->getId(),
-                    'name' => $branch->getName()
-                ];
-            }
-
-            return $this->json($response);
-
-        } else {
-            throw new HttpException(403, 'Brak dostępu');
-        }
-    }
-
-    #[Route('/{id}/branches/{branchId}/cars', name: 'app_api_organizations_new-car-in-branch-in-organization', methods: ['GET'])]
-    public function newCarInBranchInOrganization(string $id): Response
-    {
-        $loggedUser = $this->security->getUser();
-        $userEmail = $loggedUser->getUserIdentifier();
-
-        $organizations = $this->organizationService->getOrganizationsByEmailLoggedUser($userEmail);
-        $organization = null;
-
-
-        foreach ($organizations as $localOrganization)
-        {
-            if ($localOrganization->getId() === intval($id))
-            {
-                $organization = $localOrganization;
-            }
-        }
-
-        if ($organization)
-        {
-            $branches = $organization->getBranches();
-            $cars = [];
-
-            foreach ($branches as $branch)
-            {
-                array_push($cars, []);
-            }
-
-            return $this->json([
-                'data' => $branches
-            ]);
-
-        } else {
-            throw new HttpException(403, 'Brak dostępu');
-        }
-    }
+//    #[Route('', name: 'app_api_organizations_new-organization', methods: ['POST'])]
+//    public function newOrganization(Request $request): Response
+//    {
+//        $payload = json_decode($request->getContent(), false);
+//
+//        $loggedUser = $this->security->getUser();
+//        $userEmail = $loggedUser->getUserIdentifier();
+//        $user = $this->userService->getUserByEmail($userEmail);
+//
+//        $organization = new Organization();
+//
+//        $organization->setAdmin($user);
+//        $organization->setName($payload->name);
+//        $organization->setEmail($payload->email);
+//        $organization->setAddress($payload->address);
+//        $organization->setBuildingAndApartmentNumber($payload->buildingAndApartmentNumber);
+//        $organization->setPostCode($payload->postCode);
+//        $organization->setCity($payload->city);
+//        $organization->setCountry($payload->country);
+//        $organization->setSlug($payload->slug);
+//
+//        $this->organizationService->saveOrganization($organization);
+//
+//        return $this->json(null, 201);
+//
+//
+//    }
+//
+//    #[Route('', name: 'app_api_organizations_get-organizations-by-admin-email', methods: ['GET'])]
+//    public function getOrganizationsByAdminEmail(): Response
+//    {
+//        $loggedUser = $this->security->getUser();
+//        $userEmail = $loggedUser->getUserIdentifier();
+//
+//        $organizations = $this->organizationService->getOrganizationsByEmailLoggedUser($userEmail);
+//
+//        $array = [];
+//
+//        foreach ($organizations as $organization)
+//        {
+//            $item = [
+//                'id' => $organization->getId(),
+//                'name' => $organization->getName()
+//            ];
+//            array_push($array, $item);
+//        }
+//
+//        return $this->json([
+//            'organizations' => $array
+//        ], 200);
+//    }
 }

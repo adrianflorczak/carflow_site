@@ -9,6 +9,7 @@ use App\Repository\BranchRepository;
 use App\Repository\CarRepository;
 use App\Repository\OrganizationRepository;
 use App\Repository\UserRepository;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class OrganizationService
@@ -17,18 +18,69 @@ class OrganizationService
     private BranchRepository $branchRepository;
     private CarRepository $carRepository;
     private UserRepository $userRepository;
+    private Security $security;
 
     public function __construct(
         OrganizationRepository $organizationRepository,
         BranchRepository       $branchRepository,
         CarRepository          $carRepository,
-        UserRepository         $userRepository
+        UserRepository         $userRepository,
+        Security               $security
     )
     {
         $this->organizationRepository = $organizationRepository;
         $this->branchRepository = $branchRepository;
         $this->carRepository = $carRepository;
         $this->userRepository = $userRepository;
+        $this->security = $security;
+    }
+
+    public function createOrganizationForCurrentlyLoggedUser(array $organizationData): void
+    {
+        $admin = $this->security->getUser();
+
+        $organization = new Organization();
+        $organization->setAdmin($admin);
+        $organization->setName($organizationData['name']);
+        $organization->setEmail($organizationData['email']);
+        $organization->setAddress($organizationData['address']);
+        $organization->setBuildingAndApartmentNumber($organizationData['buildingAndApartmentNumber']);
+        $organization->setPostCode($organizationData['postCode']);
+        $organization->setCity($organizationData['city']);
+        $organization->setCountry($organizationData['country']);
+        $organization->setSlug($organizationData['slug']);
+
+        try {
+            $this->organizationRepository->save($organization, true);
+        } catch (HttpException $exception) {
+            throw new HttpException(500, 'Podczas zapisu organizacji wystąpił błąd');
+        }
+    }
+
+    public function getOrganizationsCurrentlyLoggedUser(): array
+    {
+        $admin = $this->security->getUser();
+        $organizations = $this->organizationRepository->findBy(['admin' => $admin]);
+        $response = [];
+        if ($organizations) {
+            foreach ($organizations as $organization) {
+                array_push(
+                    $response,
+                    [
+                        'id' => $organization->getId(),
+                        'name' => $organization->getName(),
+                        'email' => $organization->getEmail(),
+                        'address' => $organization->getAddress(),
+                        'buildingAndApartmentNumber' => $organization->getBuildingAndApartmentNumber(),
+                        'postCode' => $organization->getPostCode(),
+                        'city' => $organization->getCity(),
+                        'country' => $organization->getCountry(),
+                        'slug' => $organization->getSlug()
+                    ]
+                );
+            }
+        }
+        return $response;
     }
 
     public function getCount(): int
