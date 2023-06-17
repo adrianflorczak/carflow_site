@@ -15,7 +15,7 @@ const NewOrganization = () => {
     const SendFormWithData = (values) => {
         axios
             .post(
-                '/api/v-0-0-1/organizations/new',
+                '/api/v-0-0-1/organizations',
                 JSON.stringify(values)
             )
             .then((response) => {

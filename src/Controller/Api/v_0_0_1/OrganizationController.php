@@ -36,7 +36,7 @@ class OrganizationController extends AbstractController
         $this->security = $security;
     }
 
-    #[Route('/new', name: 'app_api_organizations_new-organization', methods: ['POST'])]
+    #[Route('', name: 'app_api_organizations_new-organization', methods: ['POST'])]
     public function newOrganization(Request $request): Response
     {
         $payload = json_decode($request->getContent(), false);
