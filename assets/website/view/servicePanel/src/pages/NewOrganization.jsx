@@ -2,10 +2,10 @@ import * as React from "react";
 import axios from "axios";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {Field, Form, Formik, useFormik} from "formik";
-import OrganizationsNavigation from "../../components/organizationsNavigation/OrganizationsNavigation";
-import Breadcrumbs from "../../components/breadcrumbs/Breadcrumbs";
-import BreadcrumbsActiveItem from "../../components/breadcrumbs/BreadcrumbsActiveItem";
-import BreadcrumbsLinkItem from "../../components/breadcrumbs/BreadcrumbsLinkItem";
+import OrganizationsNavigation from "../components/organizationsNavigation/OrganizationsNavigation";
+import Breadcrumbs from "../components/breadcrumbs/Breadcrumbs";
+import BreadcrumbsActiveItem from "../components/breadcrumbs/BreadcrumbsActiveItem";
+import BreadcrumbsLinkItem from "../components/breadcrumbs/BreadcrumbsLinkItem";
 
 
 const NewOrganization = () => {
@@ -20,7 +20,7 @@ const NewOrganization = () => {
             )
             .then((response) => {
                 alert('Proces dodawania nowej organizacji zakończony powodzeniem.');
-                navigate('/');
+                navigate('/organizations');
             })
             .catch((error) => {
                 console.log({
@@ -46,12 +46,19 @@ const NewOrganization = () => {
         }
     });
 
+    const PageBreadcrumbs = () => {
+        return (
+            <Breadcrumbs>
+                <BreadcrumbsLinkItem url={'/'} text={'Panel serwisowy'}/>
+                <BreadcrumbsLinkItem url={'/organizations'} text={'Organizacje'}/>
+                <BreadcrumbsActiveItem text={`Nowa`}/>
+            </Breadcrumbs>
+        );
+    }
+
     return(
         <>
-            <Breadcrumbs>
-                <BreadcrumbsLinkItem url={'/'} text="Panel serwisowy: Organizacje" />
-                <BreadcrumbsActiveItem text="Dodaj nową organizację"/>
-            </Breadcrumbs>
+            <PageBreadcrumbs/>
             <OrganizationsNavigation/>
             <form onSubmit={(e) => {e.preventDefault(); formik.handleSubmit(e)}}>
 

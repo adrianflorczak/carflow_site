@@ -42,7 +42,7 @@ class OrganizationRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Organization[] Returns an array of Organization objects
+//     * @return Branches[] Returns an array of Branches objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -56,7 +56,7 @@ class OrganizationRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Organization
+//    public function findOneBySomeField($value): ?Branches
 //    {
 //        return $this->createQueryBuilder('o')
 //            ->andWhere('o.exampleField = :val')

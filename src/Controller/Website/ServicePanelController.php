@@ -10,14 +10,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class ServicePanelController extends AbstractController
 {
     #[Route(
-        '/{reactRouterOne}/{reactRouterTwo}/{reactRouterThree}/{reactRouterFour}/{reactRouterFive}',
+        '/{reactRouterOne}/{reactRouterTwo}/{reactRouterThree}/{reactRouterFour}/{reactRouterFive}/{reactRouterSix}',
         name: 'app_website_servicePanel',
         defaults: [
             'reactRouterOne' => null,
             'reactRouterTwo' => null,
             'reactRouterThree' => null,
             'reactRouterFour' => null,
-            'reactRouterFive' => null
+            'reactRouterFive' => null,
+            'reactRouterSix' => null
         ],
         methods: ['GET'],
         priority: 10

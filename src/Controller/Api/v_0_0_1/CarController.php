@@ -4,7 +4,6 @@ namespace App\Controller\Api\v_0_0_1;
 
 use App\Service\CarService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,6 +53,32 @@ class CarController extends AbstractController
         $cars = $this->service->getCarsFromBranchForCurrentlyLoggedUser(intval($organizationId), intval($branchId));
 
         return $this->json($cars);
+    }
+
+    #[Route('/{carId}', name: 'app_api_cars_get-car-by-id', methods: ['GET'])]
+    public function getCarById(string $organizationId, string $branchId, string $carId): Response
+    {
+        $car = $this->service->getCarFromCarsFromBranchForCurrentlyLoggedUser(
+            intval($organizationId),
+            intval($branchId),
+            intval($carId)
+        );
+
+        return $this->json([
+            'brand' => $car->getBrand(),
+            'model' => $car->getModel(),
+            'vin' => $car->getVin(),
+            'segment' => $car->getSegment(),
+            'bodyType' => $car->getBodyType(),
+            'color' => $car->getColor(),
+            'fuel' => $car->getFuel(),
+            'numberOfSeats' => $car->getNumberOfSeats(),
+            'numberOfDoors' => $car->getNumberOfDoors(),
+            'registrationNumber' => $car->getRegistrationNumber(),
+            'technicalExaminationDate' => $car->getTechnicalExaminationDate()->format('d-m-Y'),
+            'insuranceExpirationDate' => $car->getInsuranceExpirationDate()->format('d-m-Y'),
+            'mileage' => $car->getMileage()
+        ]);
     }
 
 

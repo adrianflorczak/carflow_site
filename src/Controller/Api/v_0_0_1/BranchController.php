@@ -2,16 +2,11 @@
 
 namespace App\Controller\Api\v_0_0_1;
 
-use App\Entity\User;
 use App\Service\BranchService;
-use App\Service\OrganizationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Route('/api/v-0-0-1/organizations/{organizationId}/branches')]
 class BranchController extends AbstractController

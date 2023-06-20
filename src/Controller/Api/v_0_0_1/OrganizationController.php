@@ -24,6 +24,13 @@ class OrganizationController extends AbstractController
         $this->organizationService = $organizationService;
     }
 
+    #[Route('/count', name: 'app_api_organizations_get-count', methods: ['GET'])]
+    public function getCount(): Response
+    {
+        $count = $this->organizationService->getCountForCurrentlyLoggedUser();
+        return $this->json($count);
+    }
+
     #[Route('', name: 'app_api_organizations_create-new-organization', methods: ['POST'])]
     public function createNewOrganization(Request $request): Response
     {
@@ -60,7 +67,7 @@ class OrganizationController extends AbstractController
 //        $userEmail = $loggedUser->getUserIdentifier();
 //        $user = $this->userService->getUserByEmail($userEmail);
 //
-//        $organization = new Organization();
+//        $organization = new Branches();
 //
 //        $organization->setAdmin($user);
 //        $organization->setName($payload->name);

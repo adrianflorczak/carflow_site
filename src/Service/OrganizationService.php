@@ -35,6 +35,12 @@ class OrganizationService
         $this->security = $security;
     }
 
+    public function getCountForCurrentlyLoggedUser(): int
+    {
+        $organizations =  $this->organizationRepository->findBy(['admin' => $this->security->getUser()]);
+        return count($organizations);
+    }
+
     public function createOrganizationForCurrentlyLoggedUser(array $organizationData): void
     {
         $admin = $this->security->getUser();

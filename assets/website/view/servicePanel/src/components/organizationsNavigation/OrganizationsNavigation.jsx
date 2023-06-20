@@ -6,10 +6,10 @@ const OrganizationsNavigation = () => {
         <>
             <ul className="nav nav-pills" style={{marginBottom: '15px'}}>
                 <li role="presentation">
-                    <Link to={'/'}>Wszystkie organizacje</Link>
+                    <Link to={'/organizations'}>Wszystkie organizacje</Link>
                 </li>
                 <li role="presentation">
-                    <Link to={'/new-organization'}>Nowa organizacja</Link>
+                    <Link to={'/organizations/new'}>Nowa organizacja</Link>
                 </li>
             </ul>
         </>

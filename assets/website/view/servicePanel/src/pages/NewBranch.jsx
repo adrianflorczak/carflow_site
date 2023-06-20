@@ -1,8 +1,8 @@
 import * as React from "react";
-import Breadcrumbs from "../../components/breadcrumbs/Breadcrumbs";
-import BreadcrumbsLinkItem from "../../components/breadcrumbs/BreadcrumbsLinkItem";
-import BreadcrumbsActiveItem from "../../components/breadcrumbs/BreadcrumbsActiveItem";
-import BranchNavigation from "../../components/branchNavigation/BranchNavigation";
+import Breadcrumbs from "../components/breadcrumbs/Breadcrumbs";
+import BreadcrumbsLinkItem from "../components/breadcrumbs/BreadcrumbsLinkItem";
+import BreadcrumbsActiveItem from "../components/breadcrumbs/BreadcrumbsActiveItem";
+import BranchNavigation from "../components/branchNavigation/BranchNavigation";
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import {useFormik} from "formik";
@@ -14,12 +14,12 @@ const NewBranch = () => {
     const SendFormWithData = (values) => {
         axios
             .post(
-                `/api/v-0-0-1/organizations/${id}/branches/new`,
+                `/api/v-0-0-1/organizations/${id}/branches`,
                 JSON.stringify(values)
             )
             .then((response) => {
                 alert('Proces dodawania nowego oddziału zakończony powodzeniem.');
-                navigate(`/organization/${id}`);
+                navigate(`/organizations/${id}/branches`);
             })
             .catch((error) => {
                 console.log({
@@ -39,13 +39,21 @@ const NewBranch = () => {
         }
     });
 
+    const PageBreadcrumbs = () => {
+        return (
+            <Breadcrumbs>
+                <BreadcrumbsLinkItem url={'/'} text={'Panel serwisowy'}/>
+                <BreadcrumbsLinkItem url={'/organizations'} text={'Organizacje'}/>
+                <BreadcrumbsLinkItem url={`/organizations/${id}`} text={`${id}`}/>
+                <BreadcrumbsLinkItem url={`/organizations/${id}/branches`} text={`Oddziały`}/>
+                <BreadcrumbsActiveItem text={`Nowy`}/>
+            </Breadcrumbs>
+        );
+    }
+
     return(
         <>
-            <Breadcrumbs>
-                <BreadcrumbsLinkItem url={'/'} text="Panel serwisowy: Organizacje" />
-                <BreadcrumbsLinkItem url={`/organization/${id}`} text={`Organizacja: ${id}`} />
-                <BreadcrumbsActiveItem text={`Nowy oddział`} />
-            </Breadcrumbs>
+            <PageBreadcrumbs/>
             <div>
                 <BranchNavigation id={id} />
                 <form onSubmit={(e) => {e.preventDefault(); formik.handleSubmit(e)}}>

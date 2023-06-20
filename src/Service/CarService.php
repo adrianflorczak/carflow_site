@@ -51,17 +51,56 @@ class CarService
                     $car->setBodyType($carData['bodyType']);
                     $car->setColor($carData['color']);
                     $car->setFuel($carData['fuel']);
-                    $car->setNumberOfSeats($carData['numberOfSeats']);
-                    $car->setNumberOfDoors($carData['numberOfDoors']);
+                    $car->setNumberOfSeats(intval($carData['numberOfSeats']));
+                    $car->setNumberOfDoors(intval($carData['numberOfDoors']));
                     $car->setRegistrationNumber($carData['registrationNumber']);
                     $car->setTechnicalExaminationDate(\DateTime::createFromFormat("Y-m-d", $carData['technicalExaminationDate']));
                     $car->setInsuranceExpirationDate(\DateTime::createFromFormat("Y-m-d", $carData['insuranceExpirationDate']));
-                    $car->setMileage($carData['mileage']);
+                    $car->setMileage(intval($carData['mileage']));
 
                     try {
                         $this->carRepository->save($car, true);
                     } catch (HttpException $exception) {
                         throw new HttpException(500, 'Podczas zapisu pojazdu wystąpił błąd');
+                    }
+
+                } else {
+                    throw new HttpException(403, 'Brak uprawnień do pobrania zasobu');
+                }
+            } else {
+                throw new HttpException(403, 'Brak uprawnień do zasobu');
+            }
+        } else {
+            throw new HttpException(404, 'Wyszukiwana organizacja nie istnieje');
+        }
+    }
+
+    public function getCarFromCarsFromBranchForCurrentlyLoggedUser(int $organizationId, int $branchId, int $carId): Car
+    {
+        $organization = $this->organizationRepository->findOneBy(['id' => $organizationId]);
+        if ($organization) {
+            $loggedUserIdentifier = $this->security->getUser()->getUserIdentifier();
+            $organizationAdminIdentifier = $organization->getAdmin()->getUserIdentifier();
+            if ($loggedUserIdentifier == $organizationAdminIdentifier) {
+                $branches = $organization->getBranches();
+                $branch = null;
+                foreach ($branches as $localBranch) {
+                    if ($localBranch->getId() == $branchId) {
+                        $branch = $localBranch;
+                    }
+                }
+                if ($branch) {
+                    $cars = $branch->getCars();
+                    $car = null;
+                    foreach ($cars as $localCar) {
+                        if ($localCar->getId() == $carId) {
+                            $car = $localCar;
+                        }
+                    }
+                    if ($car) {
+                        return $car;
+                    } else {
+                        throw new HttpException(404, 'Not Found');
                     }
 
                 } else {

@@ -7,10 +7,10 @@ const CarNavigation = () => {
         <>
             <ul className="nav nav-pills" style={{marginBottom: '15px'}}>
                 <li role="presentation">
-                    <Link to={`/organization/${id}/branch/${branchId}`}>Wszystkie pojazdy</Link>
+                    <Link to={`/organizations/${id}/branches/${branchId}/cars`}>Wszystkie pojazdy</Link>
                 </li>
                 <li role="presentation">
-                    <Link to={`/organization/${id}/branch/${branchId}/new-car`}>Nowy pojazd</Link>
+                    <Link to={`/organizations/${id}/branches/${branchId}/cars/new`}>Nowy pojazd</Link>
                 </li>
             </ul>
         </>

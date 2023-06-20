@@ -6,10 +6,10 @@ const BranchNavigation = ( {id} ) => {
         <>
             <ul className="nav nav-pills" style={{marginBottom: '15px'}}>
                 <li role="presentation">
-                    <Link to={`/organization/${id}`}>Wszystkie oddziały</Link>
+                    <Link to={`/organizations/${id}/branches`}>Wszystkie oddziały</Link>
                 </li>
                 <li role="presentation">
-                    <Link to={`/organization/${id}/new-branch`}>Nowy oddział</Link>
+                    <Link to={`/organizations/${id}/branches/new`}>Nowy oddział</Link>
                 </li>
             </ul>
         </>
